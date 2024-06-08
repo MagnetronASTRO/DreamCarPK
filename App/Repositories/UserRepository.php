@@ -2,46 +2,58 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\UserRepositoryInterface;
+use App\Database\bindParam;
+use App\Database\DatabaseManager;
 
-class UserRepository implements UserRepositoryInterface {
-    private $queryExecutor;
+class UserRepository
+{
+    public function __construct(private DatabaseManager $dbManager){}
 
-    public function __construct(DatabaseQueryExecutor $queryExecutor) {
-        $this->queryExecutor = $queryExecutor;
+    public function findById(int $id): ?array
+    {
+        $query = "SELECT * FROM \"user\" WHERE id = :userId";
+        $params = [new bindParam(":userId", $id, 'i')];
+
+        return $this->dbManager->executeAndFetchOne($query, $params);
     }
 
-    public function findById(int $id): ?array {
-        $query = 'SELECT * FROM users WHERE id = ?';
-        return $this->queryExecutor->selectOne($query, [$id]);
+    public function findByUsername(string $username): ?array
+    {
+        $query = "SELECT * FROM \"user\" WHERE username = :username";
+        $params = [new bindParam(":username", $username, "s")];
+
+        return $this->dbManager->executeAndFetchOne($query, $params);
     }
 
-    public function findByUsername(string $username): ?array {
-        $query = 'SELECT * FROM users WHERE username = ?';
-        return $this->queryExecutor->selectOne($query, [$username]);
+    public function addUser(array $data): bool
+    {
+        $query = "INSERT INTO \"user\" (username, password, email) VALUES (:username, :password, :email)";
+        $params = [
+          new bindParam(":username", $data['username'], 's'),
+          new bindParam(":password", $data['password'], 's'),
+          new bindParam(":email", $data['email'], 's')
+        ];
+
+        return $this->dbManager->executeQuery($query, $params);
     }
 
-    public function add(array $data): bool {
-        $query = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
-        return $this->queryExecutor->insert($query, [
-            $data['username'],
-            password_hash($data['password'], PASSWORD_BCRYPT),
-            $data['email']
-        ]);
+    public function updateUserData(int $id, array $data): bool
+    {
+        $query = "UPDATE \"user\" SET username = :username, password = :password, email = :email WHERE id = :userId";
+        $params = [
+            new bindParam(":username", $data['username'], 's'),
+            new bindParam(":password", $data['password'], 's'),
+            new bindParam(":email", $data['email'], 's'),
+            new bindParam(":userId", $id, 'i')
+        ];
+        return $this->dbManager->execute();
     }
 
-    public function update(int $id, array $data): bool {
-        $query = 'UPDATE users SET username = ?, password = ?, email = ? WHERE id = ?';
-        return $this->queryExecutor->update($query, [
-            $data['username'],
-            password_hash($data['password'], PASSWORD_BCRYPT),
-            $data['email'],
-            $id
-        ]);
-    }
+    public function deleteUser(int $id): bool
+    {
+        $query = "DELETE FROM \"user\" WHERE id = :userId";
+        $params = [new bindParam(":userId", $id, 'i')];
 
-    public function delete(int $id): bool {
-        $query = 'DELETE FROM users WHERE id = ?';
-        return $this->queryExecutor->delete($query, [$id]);
+        return $this->dbManager->executeQuery($query, $params);
     }
 }

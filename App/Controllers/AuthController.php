@@ -1,19 +1,30 @@
 <?php
 
-class AuthController {
-    private $userModel;
+namespace App\Controllers;
 
-    public function __construct($userModel) {
-        $this->userModel = $userModel;
+use App\Models\UserModel;
+use App\Repositories\UserRepository;
+
+class AuthController
+{
+    private UserModel $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
     }
 
-    public function showLoginForm() {
-        require '../App/Views/login.php';
+    public function showLoginForm()
+    {
+        require __DIR__ . '/../Views/LoginView.php';
     }
 
-    public function login($username, $password) {
-        session_start();
-        $user = $this->userModel->findByUsername($username);
+    public function login()
+    {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $user = $this->userModel->getByUsername($username);
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
@@ -24,12 +35,20 @@ class AuthController {
         }
     }
 
-    public function showRegisterForm() {
-        require '../App/Views/register.php';
+    public function showRegisterForm()
+    {
+        require __DIR__ . '/../Views/register.php';
     }
 
-    public function register($username, $password, $email) {
-        if ($this->userModel->create($username, $password, $email)) {
+    public function register()
+    {
+        $data = [
+            'username' => $_POST['username'],
+            'password' => $_POST['password'],
+            'email' => $_POST['email']
+        ];
+
+        if ($this->userModel->create($data)) {
             header('Location: /login');
             exit;
         } else {
