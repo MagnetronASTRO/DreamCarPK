@@ -9,26 +9,29 @@ services:
       - .:/app/
     links:
       - php
+      - db
     networks:
       - pg-network
 
   db:
-    build:
-      context: .
-      dockerfile: docker/db/Dockerfile
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
-      - "5433:5432"
+      - "5432:5432"
     networks:
-      - pg-network
+      pg-network:
+        ipv4_address: 172.20.0.10
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
 
   php:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    environment:
-      - USERNAME=${DB_USER}
-      - PASSWORD=${DB_PASSWORD}
-      - DATABASE=${DB_NAME}
     volumes:
       - .:/app
     networks:
@@ -47,6 +50,10 @@ services:
 
 networks:
   pg-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 volumes:
-  pg-data:
+  pgdata:
