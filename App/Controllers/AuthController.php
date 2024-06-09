@@ -11,12 +11,12 @@ class AuthController
 
     public function __construct()
     {
-        $this->userModel = new UserModel();
+//        $this->userModel = new UserModel();
     }
 
     public function showLoginForm()
     {
-        require __DIR__ . '/../Views/LoginView.php';
+        require_once __DIR__ . '/../Views/LoginView.php';
     }
 
     public function login()

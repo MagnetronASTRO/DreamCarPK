@@ -9,12 +9,11 @@ use PDOException;
 
 class DatabaseManager implements DatabaseManagerInterface
 {
-    private static ?DatabaseManager $instance = null;
-    private static PDO $pdo;
-    private static PDOStatement $statement;
-    private static string $error = "";
+    private PDO $pdo;
+    private PDOStatement $statement;
+    private string $error = "";
 
-    private function __construct(string $host, string $dbName, string $user, string $password, int $port, ?string $charset = '')
+    function __construct(string $host, string $dbName, string $user, string $password, int $port, ?string $charset = '')
     {
         $dsn = "pgsql:host=$host;port=$port;dbname=$dbName;options='--client_encoding=$charset'";
         $options = [
@@ -23,94 +22,74 @@ class DatabaseManager implements DatabaseManagerInterface
         ];
 
         try {
-            self::$pdo = new PDO($dsn, $user, $password, $options);
+            $this->pdo = new PDO($dsn, $user, $password, $options);
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), (int)$e->getCode());
         }
     }
 
-    public static function getInstance(string $host = 'localhost', string $dbName = 'dreamcarpk', string $user = 'user', string $password = 'password', int $port = 5432, ?string $charset = 'utf8'): self
+    public function executeQuery(string $query, ?array $params = [], ?array $options = []): bool
     {
-        if (self::$instance === null) {
-            self::$instance = new self($host, $dbName, $user, $password, $port, $charset);
-        }
-        return self::$instance;
-    }
-
-     // TODO: add logging database errors
-//    private static function saveLog()
-//    {
-//        $query = 'INSERT INTO "database_log" VALUES()';
-//    }
-
-    public static function executeQuery(string $query, ?array $params = [], ?array $options = []): bool
-    {
-        if (count($params) > 0) {
-            self::$statement = self::getInstance()::$pdo->prepare($query);
-
-            foreach ($params as $param)
-                self::$statement->bindParam($param->getName(), $param->getValue(), $param->getType());
-
-            try {
-                if (!self::$statement->execute())
-                    self::$error = implode(":", self::$statement->errorInfo());
-            } catch (PDOException $e) {
-                self::$error = $e->getMessage();
-            }
-        } else {
-            try {
-                self::$statement = self::getInstance()::$pdo->query($query);
-                if (!self::$statement)
-                    self::$error = implode(":", self::$statement->errorInfo());
-            } catch (PDOException $e) {
-                self::$error = $e->getMessage();
-            }
+        $this->statement = $this->pdo->prepare($query);
+        foreach ($params as $param) {
+            $this->statement->bindParam($param->getName(), $param->getValue(), $param->getType());
         }
 
-//        if (!empty(self::$error)) {
-//            self::saveLog();
-//        }
-        // TODO: add fetch mode, column etc
-//        if (isset($options->fetchMode))
-//            self::$statement->setFetchMode($options->fetchMode);
+        try {
+            if (!$this->statement->execute()) {
+                $this->error = implode(":", $this->statement->errorInfo());
+            }
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
+        }
 
-        return true;
+        return empty($this->error);
     }
 
-    public static function fetch(?array $options = []): array
+    public function fetch(?array $options = []): array
     {
-        return self::$statement->fetch();
+        return $this->statement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function executeAndFetchOne(string $query, ?array $params = [], ?array $options = []): array
+    public function executeAndFetchOne(string $query, ?array $params = [], ?array $options = []): array
     {
-        if (self::executeQuery($query, $params, $options))
-            return self::fetch();
+        if ($this->executeQuery($query, $params, $options)) {
+            return $this->fetch();
+        }
 
         return [];
     }
 
-    public static function executeAndFetchAll(string $query, ?array $params = [], ?array $options = []): array
+    public function executeAndFetchAll(string $query, ?array $params = [], ?array $options = []): array
     {
-        if (self::executeQuery($query, $params, $options))
-            return self::$statement->fetchAll(PDO::FETCH_BOTH);
+        if ($this->executeQuery($query, $params, $options)) {
+            return $this->statement->fetchAll(PDO::FETCH_ASSOC);
+        }
 
         return [];
     }
 
-    public static function getLastError(): string
+    public function getLastError(): string
     {
-        return self::$statement->errorInfo()[2] ?? 'No error information available';
+        return $this->error ?: 'No error information available';
     }
 
-    public static function connect(string $host, string $dbName, string $user, string $password, int $port, ?string $charset = ''): PDO
+    public function getRowCount(): int
     {
-        $instance = self::getInstance($host, $dbName, $user, $password, $port, $charset);
-        return $instance::$pdo;
+        return $this->statement->rowCount();
     }
 
-    public static function getRowCount(): int
+    /**
+     * @param string $host
+     * @param string $dbName
+     * @param string $user
+     * @param string $password
+     * @param int $port
+     * @param string|null $charset
+     * @return PDO
+     */
+    public function connect(string $host, string $dbName, string $user, string $password, int $port, ?string $charset = ''): PDO
     {
-        return self::$statement->rowCount();
+        // TODO: Implement connect() method.
     }
 }

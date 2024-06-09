@@ -11,7 +11,7 @@ services:
       - php
       - db
     networks:
-      - pg-network
+      - app-network
 
   db:
     image: postgres:13
@@ -22,7 +22,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      pg-network:
+      app-network:
         ipv4_address: 172.20.0.10
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -35,21 +35,21 @@ services:
     volumes:
       - .:/app
     networks:
-      - pg-network
+      - app-network
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: pg-admin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "5050:80"
-    networks:
-      - pg-network
+#  pgadmin:
+#    image: dpage/pgadmin4:latest
+#    container_name: pg-admin
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@example.com
+#      PGADMIN_DEFAULT_PASSWORD: admin
+#    ports:
+#      - "5050:80"
+#    networks:
+#      - app-network
 
 networks:
-  pg-network:
+  app-network:
     driver: bridge
     ipam:
       config:
