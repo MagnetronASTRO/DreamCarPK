@@ -46,12 +46,12 @@ class DatabaseManager implements DatabaseManagerInterface
         return empty($this->error);
     }
 
-    public function fetch(?array $options = []): array
+    public function fetch(?array $options = []): array|false
     {
-        return $this->statement->fetch(PDO::FETCH_ASSOC);
+        return $this->statement->fetch(PDO::FETCH_BOTH);
     }
 
-    public function executeAndFetchOne(string $query, ?array $params = [], ?array $options = []): array
+    public function executeAndFetchOne(string $query, ?array $params = [], ?array $options = []): array|false
     {
         if ($this->executeQuery($query, $params, $options)) {
             return $this->fetch();
@@ -60,7 +60,7 @@ class DatabaseManager implements DatabaseManagerInterface
         return [];
     }
 
-    public function executeAndFetchAll(string $query, ?array $params = [], ?array $options = []): array
+    public function executeAndFetchAll(string $query, ?array $params = [], ?array $options = []): array|false
     {
         if ($this->executeQuery($query, $params, $options)) {
             return $this->statement->fetchAll(PDO::FETCH_ASSOC);

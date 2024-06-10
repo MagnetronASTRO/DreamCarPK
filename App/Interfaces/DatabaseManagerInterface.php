@@ -10,13 +10,13 @@ interface DatabaseManagerInterface
 
     public function executeQuery(string $query, ?array $params = [], ?array $options = []): bool;
 
-    public function executeAndFetchOne(string $query, ?array $params = [], ?array $options = []): array;
+    public function executeAndFetchOne(string $query, ?array $params = [], ?array $options = []): array|false;
 
-    public function executeAndFetchAll(string $query, ?array $params = [], ?array $options = []): array;
+    public function executeAndFetchAll(string $query, ?array $params = [], ?array $options = []): array|false;
 
     public function getRowCount(): int;
 
     public function getLastError(): string;
 
-    public function fetch(?array $options = []): array;
+    public function fetch(?array $options = []): array|false;
 }

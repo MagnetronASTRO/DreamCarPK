@@ -6,15 +6,23 @@ use App\Database\bindParam;
 use App\Database\DatabaseManager;
 use App\Interfaces\DatabaseManagerInterface;
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\UserModel;
 
 class UserRepository implements UserRepositoryInterface
 {
     public function __construct(private DatabaseManager $dbManager){}
 
-    public function getAllUsers(): array
+    public function getAllUsers(): ?array
     {
-        $query = "SELECT * FROM \"user\"";
-        return $this->dbManager->executeAndFetchAll($query);
+        $users = [];
+        $query = "SELECT *, user_role.role_id FROM \"user\"
+                    LEFT JOIN \"user_role\" ON \"user\".id = \"user_role\".role_id";
+        $this->dbManager->executeQuery($query);
+
+        while ($row = $this->dbManager->fetch())
+            $users[$row['id']] = new UserModel($row['id'], $row['username'], $row['email'], $row['role_id']);
+
+        return $users;
     }
 
     public function getUserById(int $id): ?array
