@@ -14,21 +14,21 @@ class UserRepository implements UserRepositoryInterface
     public function getAllUsers(): array
     {
         $query = "SELECT * FROM \"user\"";
-        return $this->dbManager::executeAndFetchAll($query);
+        return $this->dbManager->executeAndFetchAll($query);
     }
 
     public function getUserById(int $id): ?array
     {
         $query = "SELECT * FROM \"user\" WHERE id = :userId";
         $params = [new bindParam(":userId", $id, 'i')];
-        return $this->dbManager::executeAndFetchOne($query, $params);
+        return $this->dbManager->executeAndFetchOne($query, $params);
     }
 
     public function getUserByUsername(string $username): ?array
     {
         $query = "SELECT * FROM \"user\" WHERE username = :username";
         $params = [new bindParam(":username", $username, 's')];
-        return $this->dbManager::executeAndFetchOne($query, $params);
+        return $this->dbManager->executeAndFetchOne($query, $params);
     }
 
     public function createUser(array $data): bool
@@ -40,7 +40,7 @@ class UserRepository implements UserRepositoryInterface
             new bindParam(":email", $data['email'], 's')
         ];
 
-        return $this->dbManager::executeQuery($query, $params);
+        return $this->dbManager->executeQuery($query, $params);
     }
 
     public function updateUser(int $id, array $data): bool
@@ -52,13 +52,13 @@ class UserRepository implements UserRepositoryInterface
             new bindParam(":email", $data['email'], 's'),
             new bindParam(":userId", $id, 'i')
         ];
-        return $this->dbManager::executeQuery($query, $params);
+        return $this->dbManager->executeQuery($query, $params);
     }
 
     public function deleteUser(int $id): bool
     {
         $query = "DELETE FROM \"user\" WHERE id = :userId";
         $params = [new bindParam(":userId", $id, 'i')];
-        return $this->dbManager::executeQuery($query, $params);
+        return $this->dbManager->executeQuery($query, $params);
     }
 }

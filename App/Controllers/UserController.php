@@ -9,21 +9,21 @@ use DateTime;
 
 class UserController
 {
-    public function __construct(private UserRepository $userRepository) {}
+    public function __construct(private UserRepositoryInterface $userRepository) {}
 
-    public function showUser(int $id): void
-    {
-//        $userData = $this->userRepository->getUserById($id);
-//        $user = new UserModel(
-//            $userData['id'],
-//            $userData['username'],
-//            $userData['password'],
-//            $userData['email'],
-//            new DateTime($userData['created_at'])
-//        );
-
-        require 'App/Views/UsersListView.php';
-    }
+//    public function showUser(int $id): void
+//    {
+////        $userData = $this->userRepository->getUserById($id);
+////        $user = new UserModel(
+////            $userData['id'],
+////            $userData['username'],
+////            $userData['password'],
+////            $userData['email'],
+////            new DateTime($userData['created_at'])
+////        );
+//
+////        require 'App/Views/UsersListView.php';
+//    }
 
     public function listUsers(): void
     {
@@ -41,7 +41,7 @@ class UserController
 //        foreach ($usersResult as $userData) {
 //            $users
 //        }
-        require_once 'App/Views/UsersListView.php';
+        require_once __DIR__ . '/../Views/UsersListView.php';
     }
 
     public function createUser(array $data): void

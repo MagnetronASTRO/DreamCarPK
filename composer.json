@@ -8,6 +8,7 @@
         "phpunit/phpunit": "11.2"
     },
   "require": {
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "php-di/php-di": "^7.0"
   }
 }

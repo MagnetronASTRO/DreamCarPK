@@ -4,45 +4,35 @@ namespace App;
 
 class Router
 {
-    private array $routes = [];
-    private DIContainer $diContainer;
+    protected array $routes = [];
 
-    public function __construct(DIContainer $diContainer)
+    public function get($path, $handler): void
     {
-        $this->diContainer = $diContainer;
+        $this->routes['GET'][$path] = $handler;
     }
 
-    public function addRoute(string $method, string $path, string $controller, string $action): void
+    public function dispatch(): void
     {
-        $this->routes[] = [
-            'method' => $method,
-            'path' => $path,
-            'controller' => $controller,
-            'action' => $action
-        ];
-    }
+        $httpMethod = $_SERVER['REQUEST_METHOD'];
+        $uri = $_SERVER['REQUEST_URI'];
 
-    public function dispatch(string $method, string $path): void
-    {
-        foreach ($this->routes as $route) {
-            if ($route['method'] === $method && $route['path'] === $path) {
-                $controllerName = 'App\\Controllers\\' . $route['controller'];
-
-                print_r($controllerName);
-
-                if (class_exists($controllerName)) {
-                    $controller = $this->diContainer->get($controllerName);
-                    $action = $route['action'];
-
-                    if (method_exists($controller, $action)) {
-                        $controller->$action();
-                        return;
-                    }
-                }
-            }
+        if (false !== $pos = strpos($uri, '?')) {
+            $uri = substr($uri, 0, $pos);
         }
+        $uri = rawurldecode($uri);
 
-        http_response_code(404);
-        echo '404 Not Found';
+        if (isset($this->routes[$httpMethod][$uri])) {
+            $handler = $this->routes[$httpMethod][$uri];
+            [$controller, $method] = $handler;
+
+            // Get the container from bootstrap
+            $container = require __DIR__ . '/DIContainerConfig.php';
+            $controllerInstance = $container->get($controller);
+
+            call_user_func_array([$controllerInstance, $method], []);
+        } else {
+            http_response_code(404);
+            echo '404 Not Found';
+        }
     }
 }
