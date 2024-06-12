@@ -4,7 +4,9 @@ CREATE TABLE "user" (
                        username VARCHAR(50) UNIQUE NOT NULL,
                        password VARCHAR(255) NOT NULL,
                        email VARCHAR(100) UNIQUE NOT NULL,
-                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       token VARCHAR(18) NULL,
+                       expire_time INT NULL
 );
 
 -- Create the role table
@@ -27,6 +29,27 @@ CREATE TABLE "car" (
                       model VARCHAR(50) NOT NULL,
                       year INT NOT NULL,
                       is_available BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE "car_pricing" (
+    id SERIAL PRIMARY KEY,
+    car_id INT REFERENCES "car"(id) on DELETE CASCADE,
+    day_price INT NOT NULL,
+    month_price INT NOT NULL,
+    km_price INT NOT NULL
+);
+
+CREATE TABLE "car_spec" (
+    id SERIAL PRIMARY KEY,
+    car_id INT REFERENCES "car"(id) on DELETE CASCADE,
+    power INT NOT NULL,
+    color VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE "car_photo" (
+    id SERIAL PRIMARY KEY,
+    car_id INT REFERENCES "car"(id) ON DELETE CASCADE,
+    photo_name VARCHAR(255) NOT NULL
 );
 
 -- Create the reservation table (one-to-many relationship with Users and Cars)
@@ -105,22 +128,22 @@ BEGIN;
 SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 
 -- Sample transaction: Create a user, make a reservation, and insert payment details
-DO $$
-    DECLARE
-        new_user_id INT;
-        new_reservation_id INT;
-    BEGIN
-        -- Insert new user pass - password123
-        INSERT INTO "user" (username, password, email) VALUES ('johndoe', '$2y$10$GXekgjtKYEqZYn5mlrvFDeKh9lVCtzEJSg2b8Y31JfdUcTcIp9X8K', 'john@example.com') RETURNING id INTO new_user_id;
-
-        -- Insert new reservation
-        INSERT INTO "reservation" (user_id, car_id, reservation_date, return_date)
-        VALUES (new_user_id, 1, '2024-06-07 10:00:00', '2024-06-10 10:00:00') RETURNING id INTO new_reservation_id;
-
-        -- Insert payment details
-        INSERT INTO "payment_details" (reservation_id, amount, payment_method)
-        VALUES (new_reservation_id, 150.00, 'Credit Card');
-    END;
-$$;
-
-COMMIT;
+-- DO $$
+--     DECLARE
+--         new_user_id INT;
+--         new_reservation_id INT;
+--     BEGIN
+--         -- Insert new user pass - password123
+--         INSERT INTO "user" (username, password, email) VALUES ('johndoe', '$2y$10$GXekgjtKYEqZYn5mlrvFDeKh9lVCtzEJSg2b8Y31JfdUcTcIp9X8K', 'john@example.com') RETURNING id INTO new_user_id;
+--
+--         -- Insert new reservation
+--         INSERT INTO "reservation" (user_id, car_id, reservation_date, return_date)
+--         VALUES (new_user_id, 1, '2024-06-07 10:00:00', '2024-06-10 10:00:00') RETURNING id INTO new_reservation_id;
+--
+--         -- Insert payment details
+--         INSERT INTO "payment_details" (reservation_id, amount, payment_method)
+--         VALUES (new_reservation_id, 150.00, 'Credit Card');
+--     END;
+-- $$;
+--
+-- COMMIT;

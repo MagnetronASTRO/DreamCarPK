@@ -1,28 +1,20 @@
 <?php
 
 use App\Controllers\UserController;
+use App\Interfaces\CarRepositoryInterface;
+use App\Repositories\CarRepository;
 use DI\ContainerBuilder;
 use App\Database\DatabaseManager;
 use App\Interfaces\DatabaseManagerInterface;
 use App\Repositories\UserRepository;
 use App\Interfaces\UserRepositoryInterface;
+use App\Controllers\AuthenticationController;
+use App\Controllers\HomeController;
 
 $containerBuilder = new ContainerBuilder();
 
-//$containerBuilder->addDefinitions([
-//    DatabaseManagerInterface::class => DI\create(DatabaseManager::class)->constructor(
-//        '172.20.0.10',
-//        'dreamcarpk_local',
-//        'dreamcarpk_local',
-//        'dreamcarpk_local123!@#',
-//        5432,
-//        'utf8'
-//    ),
-//    UserRepositoryInterface::class => DI\autowire(UserRepository::class),
-//]);
-
 $containerBuilder->addDefinitions([
-    DatabaseManager::class => function () {
+    DatabaseManagerInterface::class => function () {
         return new DatabaseManager(
             host: '172.20.0.10',
             dbName: 'dreamcarpk_local',
@@ -33,7 +25,10 @@ $containerBuilder->addDefinitions([
         );
     },
     UserRepositoryInterface::class => \DI\autowire(UserRepository::class),
+    CarRepositoryInterface::class => \DI\autowire(CarRepository::class),
     UserController::class => \DI\autowire(UserController::class),
+    AuthenticationController::class => \DI\autowire(AuthenticationController::class),
+    HomeController::class => \DI\autowire(HomeController::class),
 ]);
 
 

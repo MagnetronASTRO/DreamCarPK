@@ -1,0 +1,24 @@
+.cars-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    /*grid-template-rows: repeat(3, 1fr);*/
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 90%;
+    justify-self: center;
+}
+
+.car-container {
+    width: 100%;
+    height: 320px;
+    padding-bottom: 50px;
+}
+
+.car-photo-container {
+    height: 250px;
+}
+
+img.car-photo {
+    width: 100%;
+    height: 100%;
+}

@@ -11,6 +11,11 @@ class Router
         $this->routes['GET'][$path] = $handler;
     }
 
+    public function post($path, $handler): void
+    {
+        $this->routes['POST'][$path] = $handler;
+    }
+
     public function dispatch(): void
     {
         $httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -31,8 +36,8 @@ class Router
 
             call_user_func_array([$controllerInstance, $method], []);
         } else {
-            http_response_code(404);
-            echo '404 Not Found';
+//            http_response_code(404);
+            echo '404 Page Not Found';
         }
     }
 }
