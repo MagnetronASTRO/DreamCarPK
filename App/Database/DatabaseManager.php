@@ -32,7 +32,7 @@ class DatabaseManager implements DatabaseManagerInterface
     {
         $this->statement = $this->pdo->prepare($query);
         foreach ($params as $param) {
-            $this->statement->bindParam($param->getName(), $param->getValue(), $param->getType());
+            $this->statement->bindParam($param->paramName, $param->value, $param->type);
         }
 
         try {

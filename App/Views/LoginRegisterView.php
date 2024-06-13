@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html = >
+<html lang="eng">
 <head>
     <title>Login/Register</title>
     <?php
@@ -34,7 +34,7 @@
             <input type="hidden" name="type" value="signIn">
             <label for="chk" aria-hidden="true">Login</label>
             <input type="email" name="email" placeholder="Email" required="">
-            <input type="password" name="password" placeholder="Password" required="">
+            <input type="password" autocomplete="current-password" name="password" placeholder="Password" required="">
             <button>Login</button>
         </form>
     </div>

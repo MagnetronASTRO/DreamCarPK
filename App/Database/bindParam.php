@@ -7,7 +7,7 @@ use PDO;
 class bindParam
 {
     // TODO: param types as enums
-    public function __construct(private readonly string $paramName, private mixed $value, private string $type)
+    public function __construct(public readonly string $paramName, public mixed $value, public string $type)
     {
         if ($type === "s" && isset($value))
             $this->value = htmlspecialchars($this->value, ENT_QUOTES, "UTF-8");

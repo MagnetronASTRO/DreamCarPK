@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\CarController;
 use App\Controllers\UserController;
 use App\Interfaces\CarRepositoryInterface;
 use App\Repositories\CarRepository;
@@ -29,6 +30,7 @@ $containerBuilder->addDefinitions([
     UserController::class => \DI\autowire(UserController::class),
     AuthenticationController::class => \DI\autowire(AuthenticationController::class),
     HomeController::class => \DI\autowire(HomeController::class),
+    CarController::class => \DI\autowire(CarController::class),
 ]);
 
 

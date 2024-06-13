@@ -5,23 +5,29 @@
         <?php include_once __DIR__ . '/loadScirptAndStyle.php'; ?>
     </head>
     <body>
-    <?php
-        include_once __DIR__ . '/header.php';
-        require_once __DIR__ . '/../vendor/autoload.php';
+            <?php include_once __DIR__ . '/header.php'; ?>
+            <div class="page-wrapper">
 
-        use App\Router;
+            <main>
+            <?php
+                require_once __DIR__ . '/../vendor/autoload.php';
 
-        $router = new Router();
-        $router->get('/', ['App\Controllers\HomeController', 'showHomepage']);
-        $router->get('/home', ['App\Controllers\HomeController', 'showHomepage']);
-        $router->get('/login', ['App\Controllers\AuthenticationController', 'showLoginRegisterForm']);
-        $router->post('/signin', ['App\Controllers\AuthenticationController', 'signin']);
-        $router->post('/signup', ['App\Controllers\AuthenticationController', 'signup']);
-        $router->get('/admin', ['App\Controllers\AdminController', 'showAdminPage']);
+                use App\Router;
 
-        $router->dispatch();
+                $router = new Router();
+                $router->get('/', ['App\Controllers\HomeController', 'showHomepage']);
+                $router->get('/home', ['App\Controllers\HomeController', 'showHomepage']);
+                $router->get('/login', ['App\Controllers\AuthenticationController', 'showLoginRegisterForm']);
+                $router->post('/signin', ['App\Controllers\AuthenticationController', 'signin']);
+                $router->post('/signup', ['App\Controllers\AuthenticationController', 'signup']);
+                $router->get('/admin', ['App\Controllers\AdminController', 'showAdminPage']);
+                $router->post('/car_page', ['App\Controllers\CarController', 'showCarPage']);
 
-        include_once __DIR__ . '/footer.php';
-    ?>
+                $router->dispatch();
+            ?>
+            </main>
+
+            <?php include_once __DIR__ . '/footer.php'; ?>
+        </div>
     </body>
 </html>

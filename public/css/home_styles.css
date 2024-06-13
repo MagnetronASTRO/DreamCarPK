@@ -1,24 +1,92 @@
-.cars-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    /*grid-template-rows: repeat(3, 1fr);*/
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    width: 90%;
-    justify-self: center;
+:root {
+    --border_radius_car: 10px;
 }
 
-.car-container {
+button.car-wrapper-submit {
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-align: inherit;
+    font: inherit;
+    border-radius: 0;
+    appearance: none;
+    cursor: pointer;
+}
+
+.car-gallery-container {
+    padding: 0 6px;
+    float: left;
+    max-width: 500px;
+    margin-bottom: 10px;
+}
+
+.car-gallery {
+    /*border: 1px solid #777;*/
+    max-height: 350px;
+    border-radius: var(--border_radius_car);
+}
+
+.car-gallery:hover {
+    outline: 1px solid black;
+}
+
+div.img-container {
+    box-shadow: inset 0 -40px 20px -10px rgba(255, 255, 255, 1);
+    border-radius: var(--border_radius_car) var(--border_radius_car) 0 0;
+    overflow: hidden;
+}
+
+div.car-gallery img {
     width: 100%;
-    height: 320px;
-    padding-bottom: 50px;
+    max-height: 250px;
+    object-fit: contain;
+    position: relative;
+    z-index: -2;
+    border-radius: var(--border_radius_car) var(--border_radius_car) 0 0;
+    transition: transform 0.5s ease;
 }
 
-.car-photo-container {
-    height: 250px;
+.car-gallery:hover .img-container img {
+    transform: scale(1.1); /* Scale the image to 120% */
 }
 
-img.car-photo {
-    width: 100%;
-    height: 100%;
+.car-description {
+    padding: 0;
+    text-align: center;
+    position: relative;
+    top: -20px;
+}
+
+.car-name-bold {
+    margin-top: 5px;
+    margin-bottom: 2px;
+    font-size: 25px;
+}
+
+.car-availability {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+p.car-is-available {
+    color: limegreen;
+}
+
+p.car-is-not-available {
+    color: crimson;
+}
+
+/*@media only screen and (max-width: 700px) {*/
+/*    .car-gallery-container {*/
+/*        width: 49.99999%;*/
+/*        margin: 6px 0;*/
+/*    }*/
+/*}*/
+
+@media only screen and (max-width: 500px) {
+    .car-gallery-container {
+        width: 100%;
+    }
 }

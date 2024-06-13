@@ -1,7 +1,51 @@
-.nav {
-    height: 50px;
+/* latin */
+@font-face {
+    font-family: 'Bungee Shade';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/bungeeshade/v13/DtVkJxarWL0t2KdzK3oI_jkc6SjTjQJElg.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+header {
+    line-height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    background-color: #4d4d4d;
+    z-index: 1000;
+    height: 60px;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.2);
+}
+
+div.logo-container {
+    position: fixed;
+    padding-left: 20px;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    height: 60px;
+}
+
+div.logo-container a {
+    all: unset;
+}
+
+span.logo {
+    font-family: 'Bungee Shade';
+    font-size: 35px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+span.logo:hover {
+    color: orangered;
+}
+
+.nav {
+    height: 60px;
+    width: 100%;
+    background-color: white;
     position: relative;
 }
 
@@ -11,7 +55,7 @@
 
 .nav > .nav-header > .nav-title {
     display: inline-block;
-    font-size: 22px;
+    font-size: 25px;
     color: #fff;
     padding: 10px 10px 10px 10px;
 }
@@ -23,69 +67,82 @@
 .nav > .nav-links {
     display: inline;
     float: right;
-    font-size: 18px;
+    font-size: 23px;
+    font-weight: bold;
     text-align: center;
 }
 
 .nav > .nav-links > a {
     display: inline-block;
-    padding: 13px 10px 13px 10px;
+    padding: 0 10px 0 10px;
     text-decoration: none;
-    color: #efefef;
+    color: black;
 }
 
 .nav > .nav-links > a:hover {
-    background-color: rgba(0, 0, 0, 0.3);
+    color: orangered;
+    transition: smooth 0.5s;
 }
 
 .nav > #nav-check {
     display: none;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width:700px) {
     .nav > .nav-btn {
         display: inline-block;
         position: absolute;
         right: 0px;
-        top: 0px;
+        top: 5px;
     }
 
     .nav > .nav-btn > label {
         display: inline-block;
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         padding: 13px;
     }
-    .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
-        background-color: rgba(0, 0, 0, 0.3);
-    }
+
     .nav > .nav-btn > label > span {
         display: block;
         width: 25px;
         height: 10px;
-        border-top: 2px solid #eee;
+        border-top: 2px solid black;
+    }
+
+    .nav > .nav-btn:hover > label > span {
+        border-top: 2px solid orangered;
+        cursor: pointer;
     }
     .nav > .nav-links {
         position: absolute;
         display: block;
-        font-size: 22px;
+        font-size: 30px;
         width: 100%;
-        background-color: #333;
+        background-color: white;
         height: 0px;
         transition: all 0.3s ease-in;
         overflow-y: hidden;
-        top: 50px;
+        top: 60px;
         left: 0px;
+        z-index: 100;
     }
+
     .nav > .nav-links > a {
+        padding-top: 40px;
         display: block;
         width: 100%;
     }
+
+    .nav > .nav-links > a:first-of-type {
+        margin-top: 20px;
+    }
+
     .nav > #nav-check:not(:checked) ~ .nav-links {
         height: 0px;
     }
     .nav > #nav-check:checked ~ .nav-links {
-        height: calc(100vh - 50px);
+        height: calc(100vh - 60px);
         overflow-y: auto;
     }
 }
