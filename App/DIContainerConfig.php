@@ -1,9 +1,12 @@
 <?php
 
+use App\Controllers\AdminController;
 use App\Controllers\CarController;
 use App\Controllers\UserController;
 use App\Interfaces\CarRepositoryInterface;
+use App\Interfaces\ReservationRepositoryInterface;
 use App\Repositories\CarRepository;
+use App\Repositories\ReservationRepository;
 use DI\ContainerBuilder;
 use App\Database\DatabaseManager;
 use App\Interfaces\DatabaseManagerInterface;
@@ -27,10 +30,12 @@ $containerBuilder->addDefinitions([
     },
     UserRepositoryInterface::class => \DI\autowire(UserRepository::class),
     CarRepositoryInterface::class => \DI\autowire(CarRepository::class),
+    ReservationRepositoryInterface::class => \DI\autowire(ReservationRepository::class),
     UserController::class => \DI\autowire(UserController::class),
     AuthenticationController::class => \DI\autowire(AuthenticationController::class),
     HomeController::class => \DI\autowire(HomeController::class),
     CarController::class => \DI\autowire(CarController::class),
+    AdminController::class => \DI\autowire(AdminController::class),
 ]);
 
 

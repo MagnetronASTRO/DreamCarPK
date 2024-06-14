@@ -49,6 +49,10 @@ span.logo:hover {
     position: relative;
 }
 
+.nav a:hover {
+    cursor: pointer;
+}
+
 .nav > .nav-header {
     display: inline;
 }

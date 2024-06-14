@@ -1,35 +1,57 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const registerForm = document.getElementById("signUpForm");
+    const signUpFormContainer = document.getElementById('signUpFormContainer');
+    const loginFormContainer = document.getElementById('loginFormContainer');
 
-    registerForm.addEventListener("submit", async (event) => {
+    const showLoginFormButton = document.getElementById('showLoginForm');
+    const cancelSignUpForm = document.getElementById('cancelSignUpForm');
+
+    cancelSignUpForm.onclick = function (event) {
+        signUpFormContainer.style.display = "none";
+    }
+
+    // hide signUp form when changing to login form
+    function showLoginForm() {
+        showLoginFormButton.onclick = function (event) {
+            signUpFormContainer.style.display = "none";
+            loginFormContainer.style.display = "block";
+        }
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onmousedown = function (event) {
+        if (event.target === signUpFormContainer) {
+            signUpFormContainer.style.display = "none";
+        }
+    }
+
+    const signUpForm = document.getElementById("signUpForm");
+
+    signUpForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const formData = new FormData(registerForm);
+        const formData = new FormData(signUpForm);
         const data = {
-            username: formData.get("username"),
             password: formData.get("password"),
             email: formData.get("email")
         };
 
-        try {
-            const response = await fetch("/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
+        fetch('/signup', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Handle successful login (e.g., redirect to dashboard)
+                    alert(data.message);
+                    showLoginForm();
+                } else {
+                    // Handle login failure (e.g., display an error message)
+                    alert('Login failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.log('Error:', error);
             });
-
-            const result = await response.json();
-
-            const messageDiv = document.getElementById("message");
-            if (response.ok) {
-                messageDiv.textContent = "Registration successful!";
-            } else {
-                messageDiv.textContent = "Registration failed: " + result.message;
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
     });
 });

@@ -11,11 +11,6 @@ class AuthenticationController
     {
     }
 
-    public function showLoginRegisterForm()
-    {
-        require_once __DIR__ . '/../Views/LoginRegisterView.php';
-    }
-
     private function setLoginCookie(int $userId): void
     {
         $token = bin2hex(random_bytes(32));
@@ -37,42 +32,51 @@ class AuthenticationController
         exit;
     }
 
-    public function signIn(): void
+    public function login(): void
     {
+        $response = ['success' => false, 'message' => 'Invalid credentials'];
+
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
-//
-//        $user = $this->userRepository->getUserByEmail($email);
-//
-//        if ($user && password_verify($password, $user->password)) {
+
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+        $user = $this->userRepository->getUserByEmail($email);
+
+
+        if ($user && password_verify($password, $user->password)) {
 //            $this->setLoginCookie($user->id);
-//            header('Location: /home');
-//            exit();
-//        } else {
-//            echo 'invalid_credentials';
-//        }
-        echo 'test';
+            $response['success'] = true;
+            $response['message'] = 'Login successful';
+        }
+
+//        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 
     public function signUp(): void
     {
-//        $email = $_POST['email'] ?? '';
-//        $username = $_POST['username'] ?? '';
-//        $password = $_POST['password'] ?? '';
-//        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-//
-//        $newUser = new UserModel(
-//            id: 0,
-//            username: $username,
-//            email: $email,
-//            role: 2,
-//            password: $hashedPassword,
-//        );
-//
-//        $this->userRepository->createUser($newUser);
-//
-//        header('Location: /login');
-//        exit();
-        echo 'test2';
+        $response = ['success' => false, 'message' => 'Registration failed'];
+
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        $newUser = new UserModel(
+            id: 0,
+            username: '',
+            email: $email,
+            role: 2,
+            password: $hashedPassword,
+        );
+
+        if ($this->userRepository->createUser($newUser)) {
+            $response['success'] = true;
+            $response['message'] = 'Registration successful';
+        }
+
+        echo json_encode($response);
     }
 }
