@@ -35,14 +35,17 @@ class AuthenticationController
     public function login(): void
     {
         $response = ['success' => false, 'message' => 'Invalid credentials'];
-
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $sanitizedEmail = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+        if (!filter_var($sanitizedEmail, FILTER_VALIDATE_EMAIL)) {
+            $response['success'] = false;
+            $response['message'] = "Invalid email address";
+        }
 
         $user = $this->userRepository->getUserByEmail($email);
-
 
         if ($user && password_verify($password, $user->password)) {
 //            $this->setLoginCookie($user->id);
@@ -50,7 +53,6 @@ class AuthenticationController
             $response['message'] = 'Login successful';
         }
 
-//        header('Content-Type: application/json');
         echo json_encode($response);
     }
 
@@ -58,23 +60,35 @@ class AuthenticationController
     {
         $response = ['success' => false, 'message' => 'Registration failed'];
 
+        error_log(print_r($_POST, true));
+
         $email = $_POST['email'] ?? '';
+        $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $sanitizedEmail = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-        $newUser = new UserModel(
-            id: 0,
-            username: '',
-            email: $email,
-            role: 2,
-            password: $hashedPassword,
-        );
+        if (filter_var($sanitizedEmail, FILTER_VALIDATE_EMAIL)) {
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        if ($this->userRepository->createUser($newUser)) {
-            $response['success'] = true;
-            $response['message'] = 'Registration successful';
+            if ($this->userRepository->getUserByEmail($email)) {
+                $response['success'] = false;
+                $response['message'] = "User with email: \"$email\" already exists";
+            } else {
+                error_log(print_r('else2', true));
+                $newUser = new UserModel(
+                    id: 0,
+                    username: $username,
+                    email: $email,
+                    role: 2,
+                    password: $hashedPassword,
+                );
+
+                if ($this->userRepository->createUser($newUser)) {
+                    $response['success'] = true;
+                    $response['message'] = 'Registration successful';
+                }
+            }
         }
 
         echo json_encode($response);

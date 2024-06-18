@@ -16,7 +16,8 @@
 
         <div class="nav-links">
             <a href="/">HOME</a>
-            <a id="loginForm" onclick="document.getElementById('loginFormContainer').style.display='block'" style="width:auto;">SIGN IN</a>
+            <a id="loginFormShow" onclick="document.getElementById('loginFormContainer').style.display='block'" style="width:auto;">LOGIN</a>
+            <a id="signUpFormShow" onclick="document.getElementById('signUpFormContainer').style.display='block'" style="width:auto;">SIGNUP</a>
             <a href="/admin">ADMIN</a>
         </div>
     </div>

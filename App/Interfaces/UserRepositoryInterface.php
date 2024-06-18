@@ -10,11 +10,11 @@ interface UserRepositoryInterface
 
     public function getLastAddedUserId(): int|bool;
 
-    public function getUserById(int $id): UserModel|bool;
+    public function getUserById(int $id): UserModel|false;
 
-    public function getUserByUsername(string $username): UserModel|bool;
+    public function getUserByUsername(string $username): UserModel|false;
 
-    public function getUserByEmail(string $email): UserModel|bool;
+    public function getUserByEmail(string $email): UserModel|false;
 
     public function createUser(UserModel $newUser): int|bool;
 

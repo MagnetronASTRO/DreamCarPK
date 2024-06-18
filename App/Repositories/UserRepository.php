@@ -27,10 +27,10 @@ class UserRepository implements UserRepositoryInterface
     public function getLastAddedUserId(): int|bool
     {
         $query = "SELECT id FROM \"user\" ORDER BY id DESC LIMIT 1";
-        return $this->dbManager->executeQuery($query);
+        return $this->dbManager->executeAndFetchOne($query)['id'];
     }
 
-    public function getUserById(int $id): UserModel|bool
+    public function getUserById(int $id): UserModel|false
     {
         $query = "SELECT * FROM \"user\" WHERE id = :userId";
         $params = [new bindParam(":userId", $id, 'i')];
@@ -38,12 +38,12 @@ class UserRepository implements UserRepositoryInterface
         $result = $this->dbManager->executeAndFetchOne($query, $params);
 
         if ($result)
-            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id']);
+            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password']);
 
         return false;
     }
 
-    public function getUserByUsername(string $username): UserModel|bool
+    public function getUserByUsername(string $username): UserModel|false
     {
         $query = "SELECT * FROM \"user\" WHERE username = :username";
         $params = [new bindParam(":username", $username, 's')];
@@ -51,7 +51,7 @@ class UserRepository implements UserRepositoryInterface
         $result = $this->dbManager->executeAndFetchOne($query, $params);
 
         if ($result)
-            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id']);
+            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password']);
 
         return false;
     }
@@ -61,15 +61,17 @@ class UserRepository implements UserRepositoryInterface
      * @param string $email
      * @return object|bool
      */
-    public function getUserByEmail(string $email): UserModel|bool
+    public function getUserByEmail(string $email): UserModel|false
     {
-        $query = "SELECT * FROM \"user\" WHERE email = :email";
+        $query = "SELECT *, \"user_role\".role_id FROM \"user\"
+                    LEFT JOIN \"user_role\" ON \"user\".id = \"user_role\".role_id
+                    WHERE email = :email";
         $params = [new bindParam(":email", $email, 's')];
 
         $result = $this->dbManager->executeAndFetchOne($query, $params);
 
         if ($result)
-            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id']);
+            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password']);
 
         return false;
     }
@@ -89,14 +91,14 @@ class UserRepository implements UserRepositoryInterface
     {
         $query = "INSERT INTO \"user\" (username, password, email, created_at) VALUES (:username, :password, :email, NOW())";
         $params = [
-            new bindParam(":username", $newUser->username, 's'),
-            new bindParam(":password", $newUser->password, 's'),
+            new bindParam(":username", $newUser->username, 's_plain'),
+            new bindParam(":password", $newUser->password, 's_plain'),
             new bindParam(":email", $newUser->email, 's')
         ];
 
         if ($this->dbManager->executeQuery($query, $params)) {
             $userId = $this->getLastAddedUserId();
-            return $this->addUserRole($userId, $newUser->role);
+            return $this->addUserRole((int)$userId, $newUser->role);
         }
 
         return false;

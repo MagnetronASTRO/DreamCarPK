@@ -11,10 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // hide signUp form when changing to login form
     function showLoginForm() {
-        showLoginFormButton.onclick = function (event) {
-            signUpFormContainer.style.display = "none";
-            loginFormContainer.style.display = "block";
-        }
+        signUpFormContainer.style.display = "none";
+        loginFormContainer.style.display = "block";
+    }
+
+    showLoginFormButton.onclick = function (event) {
+        showLoginForm();
     }
 
     // When the user clicks anywhere outside of the modal, close it
@@ -32,7 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(signUpForm);
         const data = {
             password: formData.get("password"),
-            email: formData.get("email")
+            passwordRepeat: formData.get("password-repeat"),
+            email: formData.get("email"),
+            username: formData.get("username")
         };
 
         fetch('/signup', {
@@ -49,9 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Handle login failure (e.g., display an error message)
                     alert('Login failed: ' + data.message);
                 }
-            })
-            .catch(error => {
-                console.log('Error:', error);
-            });
+            }).catch(error => {
+                console.error('Error:', error);
+        });
     });
 });

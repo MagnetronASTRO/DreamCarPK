@@ -1,0 +1,22 @@
+[18-Jun-2024 18:53:37 UTC] Array
+(
+)
+
+[18-Jun-2024 19:05:14 UTC] Array
+(
+    [email] => admin@example.com
+    [username] => admin
+    [password] => 1
+    [password-repeat] => 1
+    [remember] => on
+)
+
+[18-Jun-2024 19:06:06 UTC] Array
+(
+    [email] => admin@example.com
+    [username] => admin
+    [password] => 1
+    [password-repeat] => 1
+    [remember] => on
+)
+

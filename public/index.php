@@ -7,8 +7,8 @@
 <body>
 <?php
 include_once __DIR__ . '/header.php';
-include_once __DIR__ . '/loginForm.php';
 include_once __DIR__ . '/signUpForm.php';
+include_once __DIR__ . '/loginForm.php';
 ?>
 
 <div class="page-wrapper">
