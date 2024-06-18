@@ -1,5 +1,5 @@
 <div id="loginFormContainer" class="modal login-form">
-    <form id="loginForm" class="modal-content animate" action="/login" method="post">
+    <form id="loginForm" class="modal-content animate">
         <div class="container">
             <h2>Login</h2>
             <hr>

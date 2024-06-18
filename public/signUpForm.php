@@ -1,5 +1,5 @@
 <div id="signUpFormContainer" class="modal signup-form">
-    <form id="signUpForm" class="modal-content animate" action="/signup" method="post">
+    <form id="signUpForm" class="modal-content animate">
         <div class="container">
             <h2>Sign Up</h2>
             <p>Please fill in this form to create an account.</p>

@@ -32,14 +32,26 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
 
         const formData = new FormData(signUpForm);
+        formData.append('action', 'signUp');
+
         const data = {
             password: formData.get("password"),
-            passwordRepeat: formData.get("password-repeat"),
+            password_repeat: formData.get("password-repeat"),
             email: formData.get("email"),
             username: formData.get("username")
         };
 
-        fetch('/signup', {
+        if (data.email === "" || data.username === "" || data.password === "") {
+            alert('All fields are required');
+            return;
+        }
+
+        if (data.password !== data.password_repeat) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        fetch('fetchAjax.php', {
             method: 'POST',
             body: formData
         })

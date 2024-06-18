@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 use App\Controllers\AdminController;
 use App\Controllers\CarController;
 use App\Controllers\UserController;
