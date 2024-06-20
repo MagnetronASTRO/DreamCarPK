@@ -5,6 +5,9 @@ $scriptsPaths = [
     'js/logout.js',
     'js/header.js',
     'js/footer.js', // adds current year to copyright
+    'js/admin_users.js',
+    'js/admin_cars.js',
+    'js/admin_reservations.js',
 ];
 
 $stylesPaths = [
@@ -13,6 +16,7 @@ $stylesPaths = [
     'css/navbar_styles.css',
     'css/home_styles.css',
     'css/car_details_styles.css',
+    'css/admin_panel_styles.css',
 ];
 
 foreach ($scriptsPaths as $scriptPath) {

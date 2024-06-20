@@ -22,19 +22,29 @@ class AdminController
         require_once __DIR__ . '/../Views/UserManagerView.php';
     }
 
-    public function updateUser()
+    public function showEditUserForm()
     {
+        require_once __DIR__ . '/../Views/EditUserFormView.php';
+    }
 
+    public function showAddUserForm()
+    {
+        require_once __DIR__ . '/../Views/AddUserFormView.php';
+    }
+
+    public function editUserData()
+    {
+        //
     }
 
     public function addUser()
     {
-
+        //
     }
 
     public function deleteUser()
     {
-
+        //
     }
 
     public function showCarManager()
@@ -42,6 +52,33 @@ class AdminController
 //        $users = $this->carRepository->getAllCars();
 //        require_once __DIR__ . '/../Views/CarManagerView.php';
     }
+
+
+    public function showEditCarForm()
+    {
+        require_once __DIR__ . '/../Views/EditCarFormView.php';
+    }
+
+    public function showAddCarForm()
+    {
+        require_once __DIR__ . '/../Views/AddCarFormView.php';
+    }
+
+    public function editCarData()
+    {
+        //
+    }
+
+    public function addCar()
+    {
+        //
+    }
+
+    public function deleteCar()
+    {
+        //
+    }
+
 
     public function showReservationManager()
     {

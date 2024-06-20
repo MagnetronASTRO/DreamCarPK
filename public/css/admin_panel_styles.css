@@ -1,0 +1,14 @@
+.admin-wrapper {
+    width: 100%;
+}
+
+.data-table, td, th {
+    border: 1px solid dimgrey;
+    padding: 5px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
