@@ -113,6 +113,7 @@ class UserRepository implements UserRepositoryInterface
             new bindParam(":email", $userData['email'], 's'),
             new bindParam(":userId", $id, 'i')
         ];
+
         return $this->dbManager->executeQuery($query, $params);
     }
 
@@ -120,17 +121,75 @@ class UserRepository implements UserRepositoryInterface
     {
         $query = "DELETE FROM \"user\" WHERE id = :userId";
         $params = [new bindParam(":userId", $id, 'i')];
+
         return $this->dbManager->executeQuery($query, $params);
     }
 
     public function setUserToken(int $userId, string $token, int $expireTime): bool
     {
-        $query = "UPDATE \"user\" SET token = :token, expire_time = :expireTime WHERE id = :userId";
+        $query = "INSERT INTO \"user_tokens\" (user_id, token, expiry) VALUES (:user_id, :token, :expiry)
+                  ON CONFLICT (user_id) DO UPDATE SET token = :token, expiry = :expiry";
+        $params = [
+            new bindParam(":user_id", $userId, 'i'),
+            new bindParam(":token", $token, 's'),
+            new bindParam(":expiry", $expireTime, 'i')
+        ];
+
+        return $this->dbManager->executeQuery($query, $params);
+    }
+
+    /**
+     * @param string $token
+     * @return bool is user token valid
+     */
+    public function validateUserToken(string $token): bool
+    {
+        $query = "SELECT * FROM \"user_tokens\" WHERE token = :token AND expiry > :current_time";
         $params = [
             new bindParam(":token", $token, 's'),
-            new bindParam(":expireTime", $expireTime, 'i'),
-            new bindParam(":userId", $userId, 'i')
+            new bindParam(":current_time", time(), 'i')
         ];
-        return $this->dbManager->executeQuery($query, $params);
+
+        $result = $this->dbManager->executeAndFetchOne($query, $params);
+
+        return !empty($result);
+    }
+
+    /**
+     * @param int $userToken
+     * @return string
+     */
+    public function getUserToken(string $userToken): array
+    {
+        $query = "SELECT * FROM \"user_tokens\" WHERE token = :token";
+        $params = [new bindParam(":token", $userToken, 's')];
+
+        return $this->dbManager->executeAndFetchOne($query, $params);
+    }
+
+    /**
+     * @param int $userId
+     * @return int role_id
+     */
+    public function getUserRole(int $userId): int
+    {
+        $query = "SELECT role_id FROM \"user_role\" WHERE user_id = :userId";
+        $params = [new bindParam(":userId", $userId, 'i')];
+
+        return $this->dbManager->executeAndFetchOne($query, $params)['role_id'] ?? 0;
+    }
+
+    /**
+     * @param int $userId
+     * @return array array of roles
+     */
+    public function getUserRoles(int $userId): array
+    {
+        $query = "SELECT r.role_name FROM \"role\" r
+              INNER JOIN \"user_role\" ur ON r.id = ur.role_id
+              WHERE ur.user_id = :userId";
+        $params = [new bindParam(":userId", $userId, 'i')];
+
+        return $this->dbManager->executeAndFetchAll($query, $params);
     }
 }

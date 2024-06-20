@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['action'])) {
     $response = match($_POST['action']) {
         'login' => $AuthenticationController->login($_POST['email'], $_POST['password']),
         'signUp' => $AuthenticationController->signUp($_POST['email'], $_POST['username'], $_POST['password']),
+        'logout' => $AuthenticationController->logOut(),
     };
 }
 

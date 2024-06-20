@@ -22,35 +22,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const loginForm = document.getElementById("loginForm");
 
-    loginForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
+    if (loginForm !== null) {
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
 
-        const formData = new FormData(loginForm);
-        formData.append('action', 'login');
+            const formData = new FormData(loginForm);
+            formData.append('action', 'login');
 
-        // for front-end validation
-        const data = {
-            password: formData.get("password"),
-            email: formData.get("email")
-        };
+            // for front-end validation
+            const data = {
+                password: formData.get("password"),
+                email: formData.get("email")
+            };
 
-        fetch('fetchAjax.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Handle successful login (e.g., redirect to dashboard)
-                alert('succesful');
-                // window.location.href = '/';
-            } else {
-                // Handle login failure (e.g., display an error message)
-                alert('Login failed: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+            fetch('fetchAjax.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        window.location.reload();
+                    } else {
+                        alert('Login failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
-    });
+    }
 });

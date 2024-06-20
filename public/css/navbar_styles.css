@@ -69,18 +69,22 @@ span.logo:hover {
 }
 
 .nav > .nav-links {
-    display: inline;
+    display: inline-flex;
+    align-items: center;
     float: right;
     font-size: 23px;
     font-weight: bold;
     text-align: center;
+    height: 60px; /* Adjust this if your header height changes */
+    transition: height 0.3s ease-in;
 }
 
 .nav > .nav-links > a {
     display: inline-block;
-    padding: 0 10px 0 10px;
+    padding: 0 10px;
     text-decoration: none;
     color: black;
+    line-height: 60px; /* Same as the height of the header */
 }
 
 .nav > .nav-links > a:hover {
@@ -118,14 +122,18 @@ span.logo:hover {
         border-top: 2px solid orangered;
         cursor: pointer;
     }
+
     .nav > .nav-links {
         position: absolute;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         font-size: 30px;
         width: 100%;
         background-color: white;
-        height: 0px;
-        transition: all 0.3s ease-in;
+        height: 0;
+        transition: height 0.3s ease-in;
         overflow-y: hidden;
         top: 60px;
         left: 0px;
@@ -133,20 +141,22 @@ span.logo:hover {
     }
 
     .nav > .nav-links > a {
-        padding-top: 40px;
+        padding: 20px 0;
         display: block;
         width: 100%;
-    }
-
-    .nav > .nav-links > a:first-of-type {
-        margin-top: 20px;
     }
 
     .nav > #nav-check:not(:checked) ~ .nav-links {
         height: 0px;
     }
+
     .nav > #nav-check:checked ~ .nav-links {
         height: calc(100vh - 60px);
         overflow-y: auto;
+    }
+
+    body:has(#nav-check:checked) span.logo {
+        transition-timing-function: linear;
+        display: none;
     }
 }

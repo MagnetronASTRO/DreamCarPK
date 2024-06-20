@@ -2,6 +2,8 @@
 $scriptsPaths = [
     'js/sign_in.js',
     'js/sign_up.js',
+    'js/logout.js',
+    'js/header.js',
     'js/footer.js', // adds current year to copyright
 ];
 

@@ -16,9 +16,16 @@
 
         <div class="nav-links">
             <a href="/">HOME</a>
-            <a id="loginFormShow" onclick="document.getElementById('loginFormContainer').style.display='block'" style="width:auto;">LOGIN</a>
-            <a id="signUpFormShow" onclick="document.getElementById('signUpFormContainer').style.display='block'" style="width:auto;">SIGNUP</a>
-            <a href="/admin">ADMIN</a>
+            <?php
+            if ($AuthenticationController->isLoggedIn()) {
+                echo "<a id='logout' style='width:auto;'>LOGOUT</a>";
+            } else {
+                echo "<a id='loginFormShow' onclick=\"document.getElementById('loginFormContainer').style.display='block'\" style='width:auto;'>LOGIN</a>";
+            }
+
+            if ($AuthenticationController->userHasRole('admin')) {
+                echo "<a href='/admin=user_manager'>ADMIN</a>";
+            } ?>
         </div>
     </div>
 </header>

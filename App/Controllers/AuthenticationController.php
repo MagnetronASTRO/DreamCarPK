@@ -4,11 +4,46 @@ namespace App\Controllers;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\UserModel;
+use function PHPUnit\Framework\isNull;
 
 class AuthenticationController
 {
     public function __construct(private UserRepositoryInterface $userRepository)
     {
+    }
+
+    public function isLoggedIn(): bool
+    {
+        if (isset($_COOKIE['user_token'])) {
+            $token = $_COOKIE['user_token'];
+            return $this->userRepository->validateUserToken($token);
+        }
+        return false;
+    }
+
+    public function getUserIdFromToken(): ?int
+    {
+        if (isset($_COOKIE['user_token'])) {
+            $token = $_COOKIE['user_token'];
+            $userToken = $this->userRepository->getUserToken($token);
+            return $userToken['user_id'] ?? NULL;
+        }
+
+        return NULL;
+    }
+
+    public function userHasRole(string $role): bool
+    {
+        $userId = $this->getUserIdFromToken();
+        if ($userId !== null) {
+            $roles = $this->userRepository->getUserRoles($userId);
+            foreach ($roles as $userRole) {
+                if ($userRole['role_name'] === $role) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private function setLoginCookie(int $userId): void
@@ -20,16 +55,21 @@ class AuthenticationController
         $this->userRepository->setUserToken($userId, $token, $expireTime);
     }
 
-    private function clearLoginCookie(): void
+    private function clearLoginCookie(): bool
     {
-        setcookie('user_token', '', time() - 3600, '/', '', true, true);
+        return setcookie('user_token', '', time() - 3600, '/', '', true, true);
     }
 
-    public function logOut(): void
+    public function logOut(): array
     {
-        $this->clearLoginCookie();
-        header('Location: /home');
-        exit;
+        $response = ['success' => false, 'message' => 'Invalid credentials'];
+
+        if ($this->clearLoginCookie()) {
+            $response['success'] = true;
+            $response['message'] = 'Logout successful';
+        }
+
+        return $response;
     }
 
     public function login(string $email, string $password): array

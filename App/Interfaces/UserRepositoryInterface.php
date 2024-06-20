@@ -23,4 +23,10 @@ interface UserRepositoryInterface
     public function deleteUser(int $id): bool;
 
     public function setUserToken(int $userId, string $token, int $expireTime): bool;
+
+    public function validateUserToken(string $token): bool;
+
+    public function getUserToken(string $userToken): array;
+
+    public function getUserRoles(int $userId): array;
 }

@@ -1,34 +1,41 @@
 -- Create the user table
 CREATE TABLE "user" (
-                       id SERIAL PRIMARY KEY,
-                       username VARCHAR(50) UNIQUE NOT NULL,
-                       password VARCHAR(255) NOT NULL,
-                       email VARCHAR(100) UNIQUE NOT NULL,
-                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                       token VARCHAR(18) NULL,
-                       expire_time INT NULL
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    token VARCHAR(18) NULL,
+    expire_time INT NULL
+);
+
+CREATE TABLE "user_tokens" (
+    user_id INT REFERENCES "user"(id) ON DELETE CASCADE,
+    token VARCHAR(64) NOT NULL,
+    expiry INT NOT NULL,
+PRIMARY KEY (user_id)
 );
 
 -- Create the role table
 CREATE TABLE "role" (
-                       id SERIAL PRIMARY KEY,
-                       role_name VARCHAR(50) UNIQUE NOT NULL
+    id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- Create the user_role table (many-to-many relationship)
 CREATE TABLE "user_role" (
-                           user_id INT REFERENCES "user"(id) ON DELETE CASCADE,
-                           role_id INT REFERENCES "role"(id) ON DELETE CASCADE,
-                           PRIMARY KEY (user_id, role_id)
+    user_id INT REFERENCES "user"(id) ON DELETE CASCADE,
+    role_id INT REFERENCES "role"(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, role_id)
 );
 
 -- Create the car table
 CREATE TABLE "car" (
-                      id SERIAL PRIMARY KEY,
-                      make VARCHAR(50) NOT NULL,
-                      model VARCHAR(50) NOT NULL,
-                      year INT NOT NULL,
-                      is_available BOOLEAN DEFAULT TRUE
+    id SERIAL PRIMARY KEY,
+    make VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year INT NOT NULL,
+    is_available BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE "car_pricing" (
@@ -54,25 +61,25 @@ CREATE TABLE "car_photo" (
 
 -- Create the reservation table (one-to-many relationship with Users and Cars)
 CREATE TABLE "reservation" (
-                              id SERIAL PRIMARY KEY,
-                              user_id INT REFERENCES "user"(id) ON DELETE CASCADE,
-                              car_id INT REFERENCES "car"(id) ON DELETE CASCADE,
-                              reservation_date TIMESTAMP NOT NULL,
-                              return_date TIMESTAMP NOT NULL,
-                              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES "user"(id) ON DELETE CASCADE,
+    car_id INT REFERENCES "car"(id) ON DELETE CASCADE,
+    reservation_date TIMESTAMP NOT NULL,
+    return_date TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create the payment_details table (one-to-one relationship with Reservations)
 CREATE TABLE "payment_details" (
-                                id SERIAL PRIMARY KEY,
-                                reservation_id INT UNIQUE REFERENCES "reservation"(id) ON DELETE CASCADE,
-                                amount DECIMAL(10, 2) NOT NULL,
-                                payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                payment_method VARCHAR(50) NOT NULL
+    id SERIAL PRIMARY KEY,
+    reservation_id INT UNIQUE REFERENCES "reservation"(id) ON DELETE CASCADE,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_method VARCHAR(50) NOT NULL
 );
 
 -- Insert initial roles
-INSERT INTO role (role_name) VALUES ('Admin'), ('Customer');
+INSERT INTO role (role_name) VALUES ('admin'), ('customer');
 
 -- Insert default admin user, default pass - admin123
 INSERT INTO "user" (username, password, email) VALUES ('admin', '$2y$10$HS4yJbBKmryUqXYMjVmCJOY2ErCxOapOj8tsf3HwKcYk89XVBZpni', 'admin@example.com');

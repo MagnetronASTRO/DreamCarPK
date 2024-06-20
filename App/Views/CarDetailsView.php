@@ -35,7 +35,7 @@
         </div>
     </div>
     <h3 class="section-title">Reserve car:</h3>
-    <?php if ($car->is_available): ?>
+    <?php if (empty($_COOKIE['user_token']) && $car->is_available): ?>
         <form class="rent-car" action="/rent_car/" method="post">
             <input type="hidden" name="carId" value="<?= $car->id ?>">
             <label for="reservationDate">Reservation Date:</label>
@@ -46,6 +46,9 @@
         </form>
     <?php else: ?>
         <p>This car is currently not available for reservation.</p>
+    <?php endif; ?>
+    <?php if(empty($_COOKIE['user_token'])): ?>
+        <p>You must be logged in to reserve car.</p>
     <?php endif; ?>
 <?php else: ?>
     <p>Car not found.</p>
