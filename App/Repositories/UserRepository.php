@@ -19,7 +19,7 @@ class UserRepository implements UserRepositoryInterface
         $this->dbManager->executeQuery($query);
 
         while ($row = $this->dbManager->fetch())
-            $users[$row['id']] = new UserModel($row['id'], $row['username'], $row['email'], $row['role_id']);
+            $users[$row['id']] = new UserModel($row['id'], $row['username'], $row['email'], $row['role_id'], is_active: $row['is_active']);
 
         return $users;
     }
@@ -32,26 +32,30 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUserById(int $id): UserModel|false
     {
-        $query = "SELECT * FROM \"user\" WHERE id = :userId";
+        $query = "SELECT * FROM \"user\"
+                    LEFT JOIN \"user_role\" ON \"user\".id = \"user_role\".role_id
+                    WHERE id = :userId";
         $params = [new bindParam(":userId", $id, 'i')];
 
         $result = $this->dbManager->executeAndFetchOne($query, $params);
 
         if ($result)
-            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password']);
+            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password'], is_active: $result['is_active']);
 
         return false;
     }
 
     public function getUserByUsername(string $username): UserModel|false
     {
-        $query = "SELECT * FROM \"user\" WHERE username = :username";
+        $query = "SELECT * FROM \"user\" 
+                    LEFT JOIN \"user_role\" ON \"user\".id = \"user_role\".role_id
+                     WHERE username = :username";
         $params = [new bindParam(":username", $username, 's')];
 
         $result = $this->dbManager->executeAndFetchOne($query, $params);
 
         if ($result)
-            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password']);
+            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password'], is_active: $result['is_active']);
 
         return false;
     }
@@ -71,7 +75,7 @@ class UserRepository implements UserRepositoryInterface
         $result = $this->dbManager->executeAndFetchOne($query, $params);
 
         if ($result)
-            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password']);
+            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password'], is_active: $result['is_active']);
 
         return false;
     }
@@ -191,5 +195,28 @@ class UserRepository implements UserRepositoryInterface
         $params = [new bindParam(":userId", $userId, 'i')];
 
         return $this->dbManager->executeAndFetchAll($query, $params);
+    }
+
+    public function getRoles(): array
+    {
+        $query = "SELECT * FROM \"role\"";
+
+        return $this->dbManager->executeAndFetchAll($query);
+    }
+
+    public function changeUserActivity(int $userId): bool
+    {
+        $user = $this->getUserById($userId);
+
+        if (!$user)
+            return false;
+
+        $query = "UPDATE \"user\" SET is_active = :activity WHERE id = :userId";
+        $params = [
+            new bindParam(":userId", $user->id, 'i'),
+            new bindParam(":activity", $user->is_active === 1 ? 0 : 1, 'i')
+        ];
+
+        return $this->dbManager->executeQuery($query, $params);
     }
 }

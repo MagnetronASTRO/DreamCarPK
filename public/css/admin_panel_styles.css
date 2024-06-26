@@ -4,11 +4,120 @@
 
 .data-table, td, th {
     border: 1px solid dimgrey;
-    padding: 5px;
+    padding: 10px;
+}
+
+.data-table th {
+    background: lightgrey;
+}
+
+
+.data-table td {
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.data-table .center-td {
+    text-align: center;
 }
 
 .data-table {
+    max-width: 1600px;
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.admin-form-wrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-input-wrapper {
+    width: 100%;
+    height: 100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
+.admin-add-form input {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.admin-add-form select {
+    margin: 10px 0;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.admin-add-form label {
+    font-weight: bold;
+}
+
+.admin-form-wrapper {
+    max-width: 800px;
+    width: 100%;
+    padding: 30px;
+}
+
+.admin-add-form {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.admin-form-button-wrapper {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.admin-form-button {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 35px;
+    width: 120px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    border-radius: 5px;
+}
+
+.admin-table-button {
+    font-weight: bold;
+    font-size: 15px;
+    text-transform: uppercase;
+    height: 30px;
+    width: 100px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    border-radius: 5px;
+}
+
+.admin-form-button:hover, .admin-table-button:hover {
+    opacity: 1;
+}
+
+.admin-green-btn {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.admin-blue-btn {
+    background-color: cornflowerblue;
+    color: white;
+}
+
+.admin-red-btn {
+    background-color: orangered;
+    color: white;
 }
 

@@ -6,7 +6,8 @@ CREATE TABLE "user" (
     email VARCHAR(100) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     token VARCHAR(18) NULL,
-    expire_time INT NULL
+    expire_time INT NULL,
+    is_active SMALLINT DEFAULT 1 NOT NULL
 );
 
 CREATE TABLE "user_tokens" (

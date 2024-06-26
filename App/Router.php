@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Controllers\AuthenticationController;
+
 class Router
 {
     protected array $routes = [];
@@ -24,20 +26,27 @@ class Router
         if (false !== $pos = strpos($uri, '?')) {
             $uri = substr($uri, 0, $pos);
         }
+
         $uri = rawurldecode($uri);
 
-        if (isset($this->routes[$httpMethod][$uri])) {
-            $handler = $this->routes[$httpMethod][$uri];
-            [$controller, $method] = $handler;
-
-            // Get the container from bootstrap
-            $container = require __DIR__ . '/DIContainerConfig.php';
-            $controllerInstance = $container->get($controller);
-
-            call_user_func_array([$controllerInstance, $method], []);
-        } else {
-//            http_response_code(404);
+        if (!isset($this->routes[$httpMethod][$uri])) {
             echo '404 Page Not Found';
+            return;
         }
+
+        $handler = $this->routes[$httpMethod][$uri];
+        $role = 'all';
+        [$controller, $method, $role] = $handler;
+
+        $container = require __DIR__ . '/DIContainerConfig.php';
+        $authenticationController = $container->get(AuthenticationController::class);
+
+        if ($role !== 'all' && !$authenticationController->userHasRole($role)) {
+            echo '404 Page Not Found';
+            return;
+        }
+
+        $controllerInstance = $container->get($controller);
+        call_user_func_array([$controllerInstance, $method], []);
     }
 }

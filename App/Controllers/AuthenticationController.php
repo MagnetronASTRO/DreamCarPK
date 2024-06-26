@@ -85,6 +85,11 @@ class AuthenticationController
 
         $user = $this->userRepository->getUserByEmail($email);
 
+        if ($user && $user->is_active === 0) {
+            $response['success'] = false;
+            $response['message'] = "User is blocked";
+        }
+
         if ($user && password_verify($password, $user->password)) {
             $this->setLoginCookie($user->id);
             $response['success'] = true;

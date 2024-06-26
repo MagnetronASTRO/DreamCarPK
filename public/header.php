@@ -17,13 +17,13 @@
         <div class="nav-links">
             <a href="/">HOME</a>
             <?php
-            if ($AuthenticationController->isLoggedIn()) {
+            if ($authenticationController->isLoggedIn()) {
                 echo "<a id='logout' style='width:auto;'>LOGOUT</a>";
             } else {
                 echo "<a id='loginFormShow' onclick=\"document.getElementById('loginFormContainer').style.display='block'\" style='width:auto;'>LOGIN</a>";
             }
 
-            if ($AuthenticationController->userHasRole('admin')) {
+            if ($authenticationController->userHasRole('admin')) {
                 echo "<a href='/admin=user_manager'>ADMIN</a>";
             } ?>
         </div>

@@ -1,1 +1,7 @@
 /vendor
+logs/php_errors.log
+
+public/img
+
+**/.DS_Store
+./idea
