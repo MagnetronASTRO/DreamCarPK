@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="eng">
+<meta name="viewport" content="initial-scale=1" />
 <head>
     <title>DreamCarPK</title>
     <?php include_once __DIR__ . '/loadScirptAndStyle.php'; ?>

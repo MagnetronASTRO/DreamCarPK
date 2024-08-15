@@ -16,9 +16,9 @@
             <label for="password-repeat"><b>Repeat Password</b></label>
             <input type="password" placeholder="Repeat Password" name="password-repeat" required>
 
-            <label>
-                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-            </label>
+<!--            <label>-->
+<!--                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me-->
+<!--            </label>-->
 
             <div class="clearfix">
                 <div>

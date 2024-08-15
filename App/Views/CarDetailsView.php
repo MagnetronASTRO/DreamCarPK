@@ -2,7 +2,13 @@
     <h1><?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?> (<?= htmlspecialchars($car->year) ?>)</h1>
     <div class="car-details">
         <div class="car-photo-container">
-            <img src="img/<?= $car->carPhoto ?>?v=<?= filemtime('img/' . $car->carPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">
+            <?php
+            $defaultPhoto = "default/vecteezy_car-icon-vector-illustration_.jpg";
+            if (!file_exists("img/$car->carPhoto")): ?>
+                <img src="<?= $defaultPhoto ?>?v=<?= filemtime($defaultPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">
+           <?php else: ?>
+                <img src="img/<?= $car->carPhoto ?>?v=<?= filemtime('img/' . $car->carPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">
+            <?php endif; ?>
         </div>
         <div class="car-specs">
             <h3 class="section-title">Car specs:</h3>
@@ -35,7 +41,7 @@
         </div>
     </div>
     <h3 class="section-title">Reserve car:</h3>
-    <?php if (empty($_COOKIE['user_token']) && $car->is_available): ?>
+    <?php if (!empty($_COOKIE['user_token']) && $car->is_available): ?>
         <form class="rent-car" action="/rent_car/" method="post">
             <input type="hidden" name="carId" value="<?= $car->id ?>">
             <label for="reservationDate">Reservation Date:</label>
@@ -44,7 +50,7 @@
             <input type="date" id="returnDate" name="returnDate" required>
             <button type="submit">Reserve</button>
         </form>
-    <?php else: ?>
+    <?php elseif (!$car->is_available): ?>
         <p>This car is currently not available for reservation.</p>
     <?php endif; ?>
     <?php if(empty($_COOKIE['user_token'])): ?>

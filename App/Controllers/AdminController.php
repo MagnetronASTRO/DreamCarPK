@@ -33,9 +33,11 @@ class AdminController
 
     public function showEditUserForm()
     {
+//        error_log(print_r($_POST));
         $user = $this->userRepository->getUserById($_POST['showEditUserForm']);
         $roles = $this->userRepository->getRoles();
-
+        error_log(print_r($user, true));
+        error_log(print_r($roles, true));
         require_once __DIR__ . '/../Views/EditUserFormView.php';
     }
 
@@ -147,7 +149,7 @@ class AdminController
 
     public function changeUserActivity()
     {
-        error_log(print_r($_POST, true));
+//        error_log(print_r($_POST, true));
         $response['success'] = false;
         $response['message'] = 'Failed to change user status!.';
         $userId = $_POST['changeUserActivity'];

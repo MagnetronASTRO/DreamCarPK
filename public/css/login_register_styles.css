@@ -173,10 +173,14 @@ hr {
     display: table;
 }
 
-/* Change styles for cancel button and signup button on extra small screens */
-@media screen and (max-width: 300px) {
-    .signUpFormContainer .cancelbtn, .signupbtn {
+@media screen and (max-width: 500px) {
+    .modal-content {
         width: 100%;
+        height: 100%;
+    }
+    .signUpFormContainer .cancelbtn, .signupbtn{
+        width: 100%;
+        height: 100%;
     }
 }
 

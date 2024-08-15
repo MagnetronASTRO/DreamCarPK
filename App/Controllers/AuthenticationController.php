@@ -14,7 +14,7 @@ class AuthenticationController
 
     public function isLoggedIn(): bool
     {
-        if (isset($_COOKIE['user_token'])) {
+    if (isset($_COOKIE['user_token'])) {
             $token = $_COOKIE['user_token'];
             return $this->userRepository->validateUserToken($token);
         }

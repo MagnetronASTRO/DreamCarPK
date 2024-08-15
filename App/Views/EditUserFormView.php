@@ -1,9 +1,10 @@
+<script src='js/admin_users.js?v=<?= filemtime('js/admin_users.js') ?>'></script>
 <div class="admin-wrapper">
     <div class="admin-form-wrapper">
         <h2>Edit User</h2>
 
         <form id="editUserForm" method="post" class="admin-add-form">
-            <input type="hidden" id="userId" name="id" value="" required>
+            <input type="hidden" id="userId" name="id" value="<?= $user->id ?>" required>
 
             <div class="admin-input-wrapper">
                 <label for="edit_username">Username:</label>
@@ -23,7 +24,11 @@
 
                 <select id="edit_role" name="role">
                     <?php foreach ($roles as $role): ?>
-                        <option value="<?= $role['id'] ?>"><?= $role['role_name'] ?></option>
+                        <?php if ($role['id'] === $user->role): ?>
+                            <option value="<?= $role['id'] ?>" selected><?= $role['role_name'] ?></option>
+                        <?php else: ?>
+                            <option value="<?= $role['id'] ?>"><?= $role['role_name'] ?></option>
+                        <?php endif;?>
                     <?php endforeach; ?>
                 </select>
             </div>

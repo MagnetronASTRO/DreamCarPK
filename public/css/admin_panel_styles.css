@@ -121,3 +121,9 @@
     color: white;
 }
 
+@media screen and (max-width: 500px) {
+    .admin-form-wrapper {
+        box-shadow: none;
+        padding: 0;
+    }
+}

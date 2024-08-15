@@ -8,9 +8,9 @@
 
             <label for="password"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="password" required>
-            <label>
-                <input type="checkbox" checked="checked" name="remember"> Remember me
-            </label>
+<!--            <label>-->
+<!--                <input type="checkbox" checked="checked" name="remember"> Remember me-->
+<!--            </label>-->
 
         <div class="clearfix">
             <div>

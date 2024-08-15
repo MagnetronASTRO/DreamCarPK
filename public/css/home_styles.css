@@ -5,12 +5,8 @@
 button.car-wrapper-submit {
     background-color: transparent;
     border: none;
-    margin: 0;
-    padding: 0;
-    text-align: inherit;
-    font: inherit;
+    text-align: center;
     border-radius: 0;
-    appearance: none;
     cursor: pointer;
 }
 
@@ -85,7 +81,13 @@ p.car-is-not-available {
 /*    }*/
 /*}*/
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 800px) {
+    .cars-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .car-gallery-container {
         width: 100%;
     }

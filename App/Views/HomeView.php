@@ -1,12 +1,19 @@
 <h1>Available Cars</h1>
-<div class="cars-wrapper">
-    <form action="/car_page" method="post">
-        <?php foreach ($cars as $car): ?>
+<form action="/car_page" method="post">
+    <div class="cars-wrapper">
+        <?php
+        $defaultPhoto = "default/vecteezy_car-icon-vector-illustration_.jpg";
+
+        foreach ($cars as $car): ?>
             <button class="car-wrapper-submit" type="submit" name="carId" value="<?= $car->id ?>">
                 <div class="car-gallery-container">
                     <div class="car-gallery">
                         <div class="img-container">
-                            <img class="car-photo" src="img/<?= $car->carPhoto ?>?v=<?= filemtime('img/' . $car->carPhoto) ?>" alt="submit">
+                            <?php if (!file_exists("img/$car->carPhoto")): ?>
+                                <img src="<?= $defaultPhoto ?>?v=<?= filemtime($defaultPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">
+                            <?php else: ?>
+                                <img src="img/<?= $car->carPhoto ?>?v=<?= filemtime('img/' . $car->carPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">
+                            <?php endif; ?>
                         </div>
                         <div class="car-description">
                             <strong class="car-name-bold"> <?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?></strong>
@@ -16,5 +23,5 @@
                 </div>
             </button>
         <?php endforeach; ?>
-    </form>
-</div>
+    </div>
+</form>

@@ -1,3 +1,4 @@
+<script src='js/admin_users.js?v=<?= filemtime('js/admin_users.js') ?>'></script>
 <div class="admin-wrapper">
     <h1>User Management</h1>
     <h2>Users:</h2>
@@ -31,8 +32,8 @@
                                 name="changeUserActivity"
                                 value="<?= htmlspecialchars($user->id) ?>"
                                 name="showEditUserForm"
-                                class="changeUserActivity admin-table-button <?= htmlspecialchars($user->is_active === 1 ? 'admin-red-btn' : 'admin-green-btn') ?>">
-                            <?= htmlspecialchars($user->is_active === 1 ? 'BLOCK' : 'UNBLOCK') ?>
+                                class="changeUserActivity admin-table-button <?= htmlspecialchars($user->is_active === 0 ? 'admin-red-btn' : 'admin-green-btn') ?>">
+                            <?= htmlspecialchars($user->is_active === 1 ? 'ACTIVE' : 'BLOCKED') ?>
                         </button>
                     </td>
                 </tr>

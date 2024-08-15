@@ -1,3 +1,4 @@
+<script src='js/admin_users.js?v=<?= filemtime('js/admin_users.js') ?>'></script>
 <div class="admin-wrapper">
     <div class="admin-form-wrapper">
         <h2>Add User</h2>
@@ -28,7 +29,7 @@
             </div>
 
             <div class="admin-form-button-wrapper">
-                <button type="submit" class="admin-form-button admin-green-btn">Add User</button>
+                <button type="submit" id="addUser" class="admin-form-button admin-green-btn">Add User</button>
             </div>
         </form>
     </div>

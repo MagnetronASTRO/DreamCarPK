@@ -35,9 +35,13 @@ h3.section-title {
     border-collapse: collapse;
 }
 
-.car-specs td {
+.car-specs table tr {
+    padding-left: 10px;
+}
+
+.car-specs tr td {
     width: 30%;
-    padding: 8px 0;
+    padding: 8px 6px;
     border-bottom: 1px solid #ddd;
 }
 
