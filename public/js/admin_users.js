@@ -2,11 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const addUserForm = document.querySelector("#addUserForm");
     const editUserForm = document.querySelector("#editUserForm");
     const changeUserActivity = document.querySelectorAll(".changeUserActivity");
+    const goBackButton = document.querySelector("#goBack");
 
     fetchAjax(addUserForm, 'submit', 'addUser');
     fetchAjax(editUserForm, 'submit', 'editUserData');
-
-    console.log(changeUserActivity);
 
     if (changeUserActivity !== null) {
         changeUserActivity.forEach(function (changeUserActivityButton) {
@@ -43,12 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
+    if (goBackButton !== null) {
+       goBackButton.addEventListener("click", async (e) => {
+           window.location.replace('admin=user_manager');
+       });
+    }
 
     function fetchAjax(element, event = 'submit', actionName) {
         if (element !== null) {
             element.addEventListener(event, async (event) => {
-                console.log('test 12342134');
                 event.preventDefault();
 
                 const formData = new FormData(element);

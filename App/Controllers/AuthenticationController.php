@@ -55,6 +55,13 @@ class AuthenticationController
         $this->userRepository->setUserToken($userId, $token, $expireTime);
     }
 
+    private function setLoginSessionData(int $userId, int $userRole): void
+    {
+        session_start();
+        $_SESSION['userId'] = $userId;
+        $_SESSION['role'] = $userRole;
+    }
+
     private function clearLoginCookie(): bool
     {
         return setcookie('user_token', '', time() - 3600, '/', '', true, true);
@@ -65,6 +72,7 @@ class AuthenticationController
         $response = ['success' => false, 'message' => 'Invalid credentials'];
 
         if ($this->clearLoginCookie()) {
+            session_unset();
             $response['success'] = true;
             $response['message'] = 'Logout successful';
         }
@@ -92,6 +100,7 @@ class AuthenticationController
 
         if ($user && password_verify($password, $user->password)) {
             $this->setLoginCookie($user->id);
+            $this->setLoginSessionData($user->id, $user->role);
             $response['success'] = true;
             $response['message'] = 'Login successful';
         }

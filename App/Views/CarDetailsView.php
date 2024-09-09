@@ -42,7 +42,7 @@
     </div>
     <h3 class="section-title">Reserve car:</h3>
     <?php if (!empty($_COOKIE['user_token']) && $car->is_available): ?>
-        <form class="rent-car" action="/rent_car/" method="post">
+        <form class="rent-car" action="/rent_car/" id="addReservationForm" method="post">
             <input type="hidden" name="carId" value="<?= $car->id ?>">
             <label for="reservationDate">Reservation Date:</label>
             <input type="date" id="reservationDate" name="reservationDate" required>

@@ -17,15 +17,17 @@
         <div class="nav-links">
             <a href="/">HOME</a>
             <?php
+            if ($authenticationController->userHasRole('admin')) {
+                echo "<a href='/admin=user_manager'>ADMIN</a>";
+            }
+
             if ($authenticationController->isLoggedIn()) {
+                echo "<a href='/user_reservations' style='width:auto;'>RESERVATIONS</a>";
                 echo "<a id='logout' style='width:auto;'>LOGOUT</a>";
             } else {
                 echo "<a id='loginFormShow' onclick=\"document.getElementById('loginFormContainer').style.display='block'\" style='width:auto;'>LOGIN</a>";
             }
-
-            if ($authenticationController->userHasRole('admin')) {
-                echo "<a href='/admin=user_manager'>ADMIN</a>";
-            } ?>
+            ?>
         </div>
     </div>
 </header>

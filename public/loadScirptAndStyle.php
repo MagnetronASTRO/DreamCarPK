@@ -17,6 +17,7 @@ $stylesPaths = [
     'css/home_styles.css',
     'css/car_details_styles.css',
     'css/admin_panel_styles.css',
+    'css/reservations_styles.css',
 ];
 
 foreach ($scriptsPaths as $scriptPath) {

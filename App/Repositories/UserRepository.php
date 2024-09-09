@@ -68,14 +68,14 @@ class UserRepository implements UserRepositoryInterface
     public function getUserByEmail(string $email): UserModel|false
     {
         $query = "SELECT *, \"user_role\".role_id FROM \"user\"
-                    LEFT JOIN \"user_role\" ON \"user\".id = \"user_role\".role_id
+                    INNER JOIN \"user_role\" ON \"user\".id = \"user_role\".user_id
                     WHERE email = :email";
         $params = [new bindParam(":email", $email, 's')];
 
         $result = $this->dbManager->executeAndFetchOne($query, $params);
 
         if ($result)
-            return new UserModel($result['id'], $result['username'], $result['email'], $result['role_id'], $result['password'], is_active: $result['is_active']);
+            return new UserModel($result['id'], $result['username'], $result['email'], +$result['role_id'], $result['password'], is_active: $result['is_active']);
 
         return false;
     }

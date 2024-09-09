@@ -30,7 +30,6 @@ class UserController
         $users = $this->userRepository->getAllUsers();
 //        $users = [...$usersResult];
 
-//        error_log(print_r($users));
 //        $users = [
 //            new UserModel(1, 'testowy_1', 'pass', 'emai@gmail.com', date("Y-m-d")),
 //            new UserModel(1, 'testowy_2', 'pass1', 'emai@gmail.com', date("Y-m-d")),

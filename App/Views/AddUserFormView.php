@@ -29,6 +29,7 @@
             </div>
 
             <div class="admin-form-button-wrapper">
+                <button type="button" id="goBack" class="admin-form-button admin-blue-btn">Go back</button>
                 <button type="submit" id="addUser" class="admin-form-button admin-green-btn">Add User</button>
             </div>
         </form>

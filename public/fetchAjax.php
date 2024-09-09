@@ -9,7 +9,6 @@ $authenticationController = $container->get(AuthenticationController::class);
 $adminController = $container->get(AdminController::class);
 
 $response = ['success' => false, 'message' => 'Invalid fetch data!'];
-error_log(print_r($_POST, true));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['action'])) {
     $response = match($_POST['action']) {

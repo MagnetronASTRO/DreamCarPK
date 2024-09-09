@@ -34,6 +34,7 @@
             </div>
 
             <div class="admin-form-button-wrapper">
+                <button type="button" id="goBack" class="admin-form-button admin-blue-btn">Go back</button>
                 <button type="submit" class="admin-form-button admin-green-btn">Edit User</button>
             </div>
         </form>

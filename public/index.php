@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="eng">
 <meta name="viewport" content="initial-scale=1" />
@@ -34,6 +35,9 @@ include_once __DIR__ . '/loginForm.php';
 
         // car specs and reservation form
         $router->post('/car_page', ['App\Controllers\CarController', 'showCarPage', 'all']);
+
+        // user reservations page
+        $router->get('/user_reservations', ['App\Controllers\ReservationController', 'showUserReservations', 'all']);
 
         // admin user panel
         $router->get('/admin=user_manager', ['App\Controllers\AdminController', 'showUserManager', 'admin']);
