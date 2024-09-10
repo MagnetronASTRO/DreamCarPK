@@ -1,3 +1,20 @@
+function toggleExpand(element) {
+    // Get the next siblings of the clicked username, which are the hidden contents
+    let sibling = element.nextElementSibling;
+    let spanArrow = element.firstElementChild;
+
+    if (spanArrow.innerHTML === "V") {
+        spanArrow.innerHTML = "Ʌ";
+    } else {
+        spanArrow.innerHTML = "V";
+    }
+
+    // Toggle visibility of all hidden content in the same row
+    while (sibling && sibling.classList.contains('hidden-content')) {
+        sibling.classList.toggle('expanded'); // Add or remove the 'expanded' class
+        sibling = sibling.nextElementSibling;
+    }
+}
 document.addEventListener("DOMContentLoaded", () => {
     const addUserForm = document.querySelector("#addUserForm");
     const editUserForm = document.querySelector("#editUserForm");

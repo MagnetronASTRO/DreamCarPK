@@ -10,13 +10,15 @@ h3.section-title {
 
 .car-details {
     display: flex;
-    flex-direction: column;
+    flex: 1 1;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
     margin-bottom: 20px;
 }
 
 .car-photo-container {
-    flex: 1 1 300px;
+    flex: 1 1 700px;
 }
 
 .car-photo-container img {
@@ -25,6 +27,11 @@ h3.section-title {
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.specs-and-form-container {
+    width: 500px;
+    min-width: 200px;
 }
 
 .car-specs {
@@ -83,6 +90,8 @@ form.rent-car button {
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 form.rent-car button:hover {

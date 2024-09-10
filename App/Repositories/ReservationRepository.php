@@ -105,4 +105,18 @@ class ReservationRepository implements ReservationRepositoryInterface
 
         return $reservations;
     }
+
+    public function addReservation(int $userId, int $carId, string $fromDate, string $returnDate): bool
+    {
+        $query = "INSERT INTO \"reservation\" (user_id, car_id, reservation_date, return_date)
+                    VALUES (:userId, :carId, :fromDate, :returnDate)";
+        $params = [
+            new bindParam(":userId", $userId, 'i'),
+            new bindParam(":carId", $carId, 'i'),
+            new bindParam(":fromDate", $fromDate, 'i'),
+            new bindParam(":returnDate", $returnDate, 'i')
+        ];
+
+        return $this->dbManager->executeQuery($query, $params);
+    }
 }

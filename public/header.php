@@ -17,14 +17,21 @@
         <div class="nav-links">
             <a href="/">HOME</a>
             <?php
+            $isUserLogged = $authenticationController->isLoggedIn();
+
+            if ($isUserLogged) {
+                echo "<a href='/user_reservations' style='width:auto;'>RESERVATIONS</a>";
+            }
+
             if ($authenticationController->userHasRole('admin')) {
                 echo "<a href='/admin=user_manager'>ADMIN</a>";
             }
 
-            if ($authenticationController->isLoggedIn()) {
-                echo "<a href='/user_reservations' style='width:auto;'>RESERVATIONS</a>";
+            if ($isUserLogged) {
                 echo "<a id='logout' style='width:auto;'>LOGOUT</a>";
-            } else {
+            }
+
+            if(!$isUserLogged) {
                 echo "<a id='loginFormShow' onclick=\"document.getElementById('loginFormContainer').style.display='block'\" style='width:auto;'>LOGIN</a>";
             }
             ?>

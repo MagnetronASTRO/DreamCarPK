@@ -30,4 +30,9 @@ footer {
     padding: 2px;
     text-align: center;
     margin-top: auto; /* This pushes the footer to the bottom of the page */
+    color: #888888;
+}
+
+footer p {
+    margin: 10px;
 }

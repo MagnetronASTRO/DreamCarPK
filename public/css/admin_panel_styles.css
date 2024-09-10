@@ -1,32 +1,63 @@
-.admin-wrapper {
+/* Basic grid styling */
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 1600px;
     width: 100%;
-}
-
-.data-table, td, th {
+    background-color: white;
     border: 1px solid dimgrey;
+    border-collapse: collapse;
+    overflow-y: auto;
+    max-height: 750px;
+}
+
+.data-grid-headers {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 1600px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid dimgrey;
+    border-bottom: none;
+}
+
+/* Headers and cell styles */
+.grid-header {
+    background-color: lightgrey;
+    font-weight: bold;
     padding: 10px;
+    text-align: left;
+    border-right: 1px solid #AAA;
+    border-bottom: 1px solid #AAA;
 }
 
-.data-table th {
-    background: lightgrey;
-}
-
-
-.data-table td {
+.grid-cell {
+    padding: 10px 10px;
+    border-bottom: 1px solid dimgrey;
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: left;
+    border-right: 1px solid #aaa;
+    height: 50px;
 }
 
-.data-table .center-td {
+.spanArrow {
+    display: none;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    /*font-weight: normal;*/
+    border: 1px solid #aaa;
+}
+
+.center-td {
     text-align: center;
 }
 
-.data-table {
-    max-width: 1600px;
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
+.rowName {
+    display: none;
+    font-weight: bold;
 }
 
 .admin-form-wrapper {
@@ -119,6 +150,80 @@
 .admin-red-btn {
     background-color: orangered;
     color: white;
+}
+
+/* Initially hide additional data only for screens smaller than 600px */
+@media screen and (max-width: 600px) {
+    .data-grid {
+        grid-template-columns: 1fr; /* Single column layout on mobile */
+        max-height: 420px;
+    }
+
+    .data-grid-headers {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-header {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Hide all headers except for Username */
+    .grid-header.hidden-on-mobile {
+        display: none;
+    }
+
+    /* Make the username clickable */
+    .grid-cell.username {
+        cursor: pointer;
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    /* Hide all additional data by default */
+    .grid-cell.hidden-content {
+        display: none;
+    }
+
+    /* Expanded content when row is clicked */
+    .grid-cell.hidden-content.expanded {
+        display: block;
+    }
+
+    /* Remove padding to align expanded cells with the username */
+    .grid-cell.hidden-content {
+        padding-top: 10px;
+        /*margin-left: 22px;*/
+        border-left: 1px solid #aaa;
+        /*float: left;*/
+        /*text-align: left;*/
+    }
+
+    .center-td {
+        padding: 0 !important;
+    }
+
+    .admin-table-button {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        font-size: 16px;
+    }
+
+    .spanArrow {
+        display: inline;
+    }
+
+    .rowName {
+        display: inline;
+    }
+}
+
+/* For screens wider than 600px, ensure all content is visible */
+@media screen and (min-width: 601px) {
+    .grid-cell.hidden-content {
+        display: block;
+    }
 }
 
 @media screen and (max-width: 500px) {

@@ -13,16 +13,29 @@ class ReservationController
     public function showUserReservations(): void
     {
         $userId = $_SESSION['userId'];
-        $reservations = $this->reservationRepository->getUserReservations(2);
+        $reservations = $this->reservationRepository->getUserReservations($userId);
 
         require_once __DIR__ . '/../Views/UserReservationsView.php';
     }
 
-    public function showReservation($id): void
+    public function showReservation(int $id): void
     {
         $reservation = $this->reservationRepository->getUserReservations($id);
 
         require_once __DIR__ . '/../Views/ReservationDetailsView.php';
+    }
+
+    public function addReservation(int $carId, string $fromDate, string $returnDate): array
+    {
+        $response = ['success' => false, 'message' => 'Registration failed'];
+        $userId = $_SESSION['userId'];
+
+        if ($this->reservationRepository->addReservation($userId, $carId, $fromDate, $returnDate)) {
+            $response['success'] = true;
+            $response['message'] = 'Successfully reserved car.';
+        }
+
+        return $response;
     }
 
 }

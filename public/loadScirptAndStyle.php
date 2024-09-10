@@ -5,6 +5,7 @@ $scriptsPaths = [
     'js/logout.js',
     'js/header.js',
     'js/footer.js', // adds current year to copyright
+    'js/reservations.js',
 //    'js/admin_users.js',
 //    'js/admin_cars.js',
 //    'js/admin_reservations.js',

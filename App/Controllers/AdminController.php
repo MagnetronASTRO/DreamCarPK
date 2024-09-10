@@ -91,7 +91,7 @@ class AdminController
         return $response;
     }
 
-    public function addUser()
+    public function addUser(): array
     {
         $response = ['success' => false, 'message' => 'Registration failed'];
         $email = $_POST['email'];
