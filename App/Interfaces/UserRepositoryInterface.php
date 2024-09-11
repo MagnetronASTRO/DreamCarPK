@@ -18,9 +18,9 @@ interface UserRepositoryInterface
 
     public function createUser(UserModel $newUser): int|bool;
 
-    public function updateUser(int $id, UserModel $userData): bool;
+    public function updateUser(int $userId, UserModel $userData): bool;
 
-    public function deleteUser(int $id): bool;
+    public function deleteUser(int $userId): bool;
 
     public function setUserToken(int $userId, string $token, int $expireTime): bool;
 

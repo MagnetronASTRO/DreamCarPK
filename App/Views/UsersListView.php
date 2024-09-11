@@ -8,7 +8,7 @@
 <ul>
     <?php foreach ($users as $user): ?>
         <li>
-                <?= htmlspecialchars($user->username) ?>
+                <?= htmlspecialchars($user->getUsername()) ?>
         </li>
     <?php endforeach; ?>
 </ul>

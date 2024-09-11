@@ -95,10 +95,10 @@ class CarRepository implements CarRepositoryInterface
     {
         $query = "INSERT INTO \"car\" (make, model, year, is_available) VALUES (:make, :model, :year, :is_available)";
         $params = [
-            new bindParam(":make", $newCar->make, 's'),
-            new bindParam(":model", $newCar->model, 's'),
-            new bindParam(":year", $newCar->year, 'i'),
-            new bindParam(":is_available", $newCar->is_available, 'b')
+            new bindParam(":make", $newCar->getMaker(), 's'),
+            new bindParam(":model", $newCar->getModel(), 's'),
+            new bindParam(":year", $newCar->getYear(), 'i'),
+            new bindParam(":is_available", $newCar->getIsAvailable(), 'b')
         ];
 
         return $this->dbManager->executeQuery($query, $params);

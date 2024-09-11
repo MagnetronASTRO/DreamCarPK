@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Interfaces\CarControllerInterface;
 use App\Interfaces\CarRepositoryInterface;
 
-class CarController
+class CarController implements CarControllerInterface
 {
     public function __construct(private CarRepositoryInterface $carRepository) {}
 

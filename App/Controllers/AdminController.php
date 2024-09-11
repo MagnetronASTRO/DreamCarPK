@@ -2,12 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Interfaces\AdminControllerInterface;
 use App\Interfaces\CarRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\ReservationRepositoryInterface;
 use App\Models\UserModel;
 
-class AdminController
+class AdminController implements AdminControllerInterface
 {
     public function __construct(
         private UserRepositoryInterface        $userRepository,
@@ -17,21 +18,21 @@ class AdminController
     {
     }
 
-    public function showUserManager()
+    public function showUserManager(): void
     {
         $users = $this->userRepository->getAllUsers();
 
         require_once __DIR__ . '/../Views/UserManagerView.php';
     }
 
-    public function showAddUserForm()
+    public function showAddUserForm(): void
     {
         $roles = $this->userRepository->getRoles();
 
         require_once __DIR__ . '/../Views/AddUserFormView.php';
     }
 
-    public function showEditUserForm()
+    public function showEditUserForm(): void
     {
         $user = $this->userRepository->getUserById($_POST['showEditUserForm']);
         $roles = $this->userRepository->getRoles();
@@ -53,14 +54,14 @@ class AdminController
         }
 
         if (empty($password)) {
-            $password = $oldUserData->password;
+            $hashedPassword = $oldUserData->getPassword();
         } else {
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         }
 
         $userByEmail = $this->userRepository->getUserByEmail($email);
 
-        if ($userByEmail && $userByEmail->email != $oldUserData->email) {
+        if ($userByEmail && $userByEmail->getEmail() != $oldUserData->getEmail()) {
             $response['success'] = false;
             $response['message'] = "User with email: \"$email\" already exists!";
             return $response;
@@ -68,7 +69,7 @@ class AdminController
 
         $userByUsername = $this->userRepository->getUserByUsername($username);
 
-        if ($userByUsername && $userByUsername->username != $oldUserData->username) {
+        if ($userByUsername && $userByUsername->getUsername() != $oldUserData->getUsername()) {
             $response['success'] = false;
             $response['message'] = "User with username: \"$username\" already exists!";
             return $response;
@@ -150,7 +151,7 @@ class AdminController
         return $response;
     }
 
-    public function changeUserActivity()
+    public function changeUserActivity(): array
     {
         $response['success'] = false;
         $response['message'] = 'Failed to change user status!.';
@@ -164,39 +165,39 @@ class AdminController
         return $response;
     }
 
-    public function showCarManager()
+    public function showCarManager(): void
     {
 //        $users = $this->carRepository->getAllCars();
 //        require_once __DIR__ . '/../Views/CarManagerView.php';
     }
 
-    public function showAddCarForm()
+    public function showAddCarForm(): void
     {
         require_once __DIR__ . '/../Views/AddCarFormView.php';
     }
 
-    public function showEditCarForm()
+    public function showEditCarForm(): void
     {
         require_once __DIR__ . '/../Views/EditCarFormView.php';
     }
 
-    public function editCarData()
+    public function editCarData(): void
     {
         //
     }
 
-    public function addCar()
+    public function addCar(): void
     {
         //
     }
 
-    public function deleteCar()
+    public function deleteCar(): void
     {
         //
     }
 
 
-    public function showReservationManager()
+    public function showReservationManager(): void
     {
 //        $users = $this->reservationRepository->getAllReservations();
 //        require_once __DIR__ . '/../Views/CarManagerView.php';

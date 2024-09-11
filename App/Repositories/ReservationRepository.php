@@ -94,7 +94,7 @@ class ReservationRepository implements ReservationRepositoryInterface
                     FROM \"reservation\" r 
                     LEFT JOIN \"car\" ON \"car\".id = r.car_id
                     WHERE user_id = :userId 
-                    ORDER BY r.id DESC";
+                    ORDER BY r.return_date";
         $params = [new bindParam(":userId", $userId, 'i')];
 
         $this->dbManager->executeQuery($query, $params);
@@ -104,12 +104,7 @@ class ReservationRepository implements ReservationRepositoryInterface
             $returnTimestamp = strtotime($row['return_date']);
             $currentTimestamp = time();
 
-            error_log(print_r(date("Y-m-d H:i:s", $pickupTimestamp), true));
-            error_log(print_r(date("Y-m-d H:i:s", $returnTimestamp), true));
-            error_log(print_r(date("Y-m-d H:i:s", $currentTimestamp), true));
-
             $isActive = $currentTimestamp > $pickupTimestamp && $currentTimestamp < $returnTimestamp ? 1 : 0;
-
 
             $reservations[$row['id']] = new ReservationModel(
                 id: $row['id'],

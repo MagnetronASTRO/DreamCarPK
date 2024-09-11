@@ -4,15 +4,15 @@
         <h2>Edit User</h2>
 
         <form id="editUserForm" method="post" class="admin-add-form">
-            <input type="hidden" id="userId" name="userId" value="<?= $user->id ?>" required>
+            <input type="hidden" id="userId" name="userId" value="<?= $user->getId() ?>" required>
 
             <div class="admin-input-wrapper">
                 <label for="edit_username">Username:</label>
-                <input type="text" id="edit_username" name="username" value="<?= $user->username ?>">
+                <input type="text" id="edit_username" name="username" value="<?= $user->getUsername() ?>">
             </div>
             <div class="admin-input-wrapper">
                 <label for="edit_email">Email:</label>
-                <input type="email" id="edit_email" name="email" value="<?= $user->email ?>">
+                <input type="email" id="edit_email" name="email" value="<?= $user->getEmail() ?>">
             </div>
             <div class="admin-input-wrapper">
                 <label for="edit_password">New password:</label>
@@ -24,7 +24,7 @@
 
                 <select id="edit_role" name="role">
                     <?php foreach ($roles as $role): ?>
-                        <?php if ($role['id'] === $user->role): ?>
+                        <?php if ($role['id'] === $user->getRole()): ?>
                             <option value="<?= $role['id'] ?>" selected><?= $role['role_name'] ?></option>
                         <?php else: ?>
                             <option value="<?= $role['id'] ?>"><?= $role['role_name'] ?></option>

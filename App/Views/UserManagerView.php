@@ -15,21 +15,21 @@
             <?php foreach ($users as $user): ?>
                 <div class="grid-cell username" data-label="Username" onclick="toggleExpand(this)">
                     <span class="spanArrow">V</span>
-                    <?= htmlspecialchars($user->username) ?>
+                    <?= htmlspecialchars($user->getUsername()) ?>
                 </div>
                 <div class="grid-cell hidden-content" data-label="Email">
-                    <span class="rowName">Email:</span> <?= htmlspecialchars($user->email) ?>
+                    <span class="rowName">Email:</span> <?= htmlspecialchars($user->getEmail()) ?>
                 </div>
                 <div class="grid-cell hidden-content" data-label="Role">
                     <span class="rowName">Role:</span>
-                    <?= htmlspecialchars($user->role == 1 ? 'Admin' : 'Customer') ?>
+                    <?= htmlspecialchars($user->getRole() == 1 ? 'Admin' : 'Customer') ?>
                 </div>
                 <div class="grid-cell hidden-content center-td" data-label="Edit">
-                    <button type="submit" value="<?= htmlspecialchars($user->id) ?>" name="showEditUserForm" class="admin-table-button admin-blue-btn">EDIT</button>
+                    <button type="submit" value="<?= htmlspecialchars($user->getId()) ?>" name="showEditUserForm" class="admin-table-button admin-blue-btn">EDIT</button>
                 </div>
                 <div class="grid-cell hidden-content center-td" data-label="Status">
-                    <button type="button" name="changeUserActivity" value="<?= htmlspecialchars($user->id) ?>" class="changeUserActivity admin-table-button <?= htmlspecialchars($user->is_active === 0 ? 'admin-red-btn' : 'admin-green-btn') ?>">
-                        <?= htmlspecialchars($user->is_active === 1 ? 'ACTIVE' : 'BLOCKED') ?>
+                    <button type="button" name="changeUserActivity" value="<?= htmlspecialchars($user->getId()) ?>" class="changeUserActivity admin-table-button <?= htmlspecialchars($user->getIsActive() === 0 ? 'admin-red-btn' : 'admin-green-btn') ?>">
+                        <?= htmlspecialchars($user->getIsActive() === 1 ? 'ACTIVE' : 'BLOCKED') ?>
                     </button>
                 </div>
             <?php endforeach; ?>

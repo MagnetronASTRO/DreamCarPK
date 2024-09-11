@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Interfaces\AuthenticationControllerInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\UserModel;
 use function PHPUnit\Framework\isNull;
 
-class AuthenticationController
+class AuthenticationController implements AuthenticationControllerInterface
 {
     public function __construct(private UserRepositoryInterface $userRepository)
     {
@@ -87,15 +88,15 @@ class AuthenticationController
 
         $user = $this->userRepository->getUserByUserName($sanitizedUsername);
 
-        if ($user && $user->is_active === 0) {
+        if ($user && $user->getIsActive() === 0) {
             $response['success'] = false;
             $response['message'] = "User is blocked";
             return $response;
         }
 
-        if ($user && password_verify($password, $user->password)) {
-            $this->setLoginCookie($user->id);
-            $this->setLoginSessionData($user->id, $user->role);
+        if ($user && password_verify($password, $user->getPassword())) {
+            $this->setLoginCookie($user->getId());
+            $this->setLoginSessionData($user->getId(), $user->getRole());
             $response['success'] = true;
             $response['message'] = 'Login successful';
         }
@@ -120,6 +121,12 @@ class AuthenticationController
         if ($this->userRepository->getUserByEmail($email)) {
             $response['success'] = false;
             $response['message'] = "User with email: \"$email\" already exists";
+            return $response;
+        }
+
+        if ($this->userRepository->getUserByUsername($username)) {
+            $response['success'] = false;
+            $response['message'] = "User with username: \"$username\" already exists!";
             return $response;
         }
 

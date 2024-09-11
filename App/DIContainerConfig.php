@@ -5,8 +5,12 @@ namespace App;
 use App\Controllers\AdminController;
 use App\Controllers\CarController;
 use App\Controllers\ReservationController;
-use App\Controllers\UserController;
+use App\Interfaces\AdminControllerInterface;
+use App\Interfaces\AuthenticationControllerInterface;
+use App\Interfaces\CarControllerInterface;
 use App\Interfaces\CarRepositoryInterface;
+use App\Interfaces\HomeControllerInterface;
+use App\Interfaces\ReservationControllerInterface;
 use App\Interfaces\ReservationRepositoryInterface;
 use App\Repositories\CarRepository;
 use App\Repositories\ReservationRepository;
@@ -34,12 +38,11 @@ $containerBuilder->addDefinitions([
     UserRepositoryInterface::class => \DI\autowire(UserRepository::class),
     CarRepositoryInterface::class => \DI\autowire(CarRepository::class),
     ReservationRepositoryInterface::class => \DI\autowire(ReservationRepository::class),
-    UserController::class => \DI\autowire(UserController::class),
-    AuthenticationController::class => \DI\autowire(AuthenticationController::class),
-    HomeController::class => \DI\autowire(HomeController::class),
-    CarController::class => \DI\autowire(CarController::class),
-    ReservationController::class => \DI\autowire(ReservationController::class),
-    AdminController::class => \DI\autowire(AdminController::class),
+    AuthenticationControllerInterface::class => \DI\autowire(AuthenticationController::class),
+    HomeControllerInterface::class => \DI\autowire(HomeController::class),
+    CarControllerInterface::class => \DI\autowire(CarController::class),
+    ReservationControllerInterface::class => \DI\autowire(ReservationController::class),
+    AdminControllerInterface::class => \DI\autowire(AdminController::class),
 ]);
 
 

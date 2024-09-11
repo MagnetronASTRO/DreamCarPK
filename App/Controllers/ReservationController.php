@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Interfaces\ReservationControllerInterface;
 use App\Interfaces\ReservationRepositoryInterface;
 
-class ReservationController
+class ReservationController implements ReservationControllerInterface
 {
     public function __construct(
         private ReservationRepositoryInterface $reservationRepository
