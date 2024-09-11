@@ -48,5 +48,53 @@ Full functionality on both web and mobile devices.
     6. Default admin email `admin@example.com` pass `admin123`, change it in production.
 
 ## User Manual
+### Home page - car selection
+
+View with all cars
+![Home page](/docs/img/homepage.png)
+
+### Reserve car
+
+Car specs, price and form for car reservation
+![Reserve car](/docs/img/car-reservation.png)
+
+### User reservations
+
+User current cars and history of reservations
+![Reserve car](/docs/img/user-reservations.png)
+
+### Login
+
+Login form
+![List products](/docs/img/login-form.png)
+
+### Signup
+
+Sign up form
+![Modify client](/docs/img/signup-form.png)
 
 ## Admin Manual
+
+### Admin panel
+
+Admin panel - user management - you can change status with clicking buttons `ACTIVE`/`BLOCKED`
+![Admin panel](/docs/img/admin-user-managment.png)
+
+Admin panel - add user
+![Admin panel](/docs/img/admin-add-user.png)
+
+Admin panel - edit user data
+![Admin panel](/docs/img/admin-edit-user-data.png)
+
+## Mobile version
+
+<img src="/docs/img/mobile-homepage.png" width="400"/>
+<img src="/docs/img/mobile-car-reservation.png" width="402"/>
+<img src="/docs/img/mobile-reservations.png" width="400"/>
+<img src="/docs/img/mobile-login.png" width="402"/>
+<img src="/docs/img/mobile-signup.png" width="400"/>
+<img src="/docs/img/mobile-admin-user-panel.png" width="403"/>
+
+## License
+
+This project is licensed under the MIT License.
