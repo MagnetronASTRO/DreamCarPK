@@ -163,7 +163,7 @@ class UserRepository implements UserRepositoryInterface
      * @param int $userToken
      * @return string
      */
-    public function getUserToken(string $userToken): array
+    public function getUserToken(string $userToken): array|false
     {
         $query = "SELECT * FROM \"user_tokens\" WHERE token = :token";
         $params = [new bindParam(":token", $userToken, 's')];

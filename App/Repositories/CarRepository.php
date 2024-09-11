@@ -17,7 +17,7 @@ class CarRepository implements CarRepositoryInterface
         $query = "
             SELECT c.id, c.make, c.model, c.year, c.is_available,
                    cp.photo_name,
-                   cr.day_price, cr.month_price, cr.km_price,
+                   cr.hour_price,
                    cs.power, cs.color
             FROM \"car\" c
             LEFT JOIN \"car_photo\" cp ON c.id = cp.car_id
@@ -28,9 +28,7 @@ class CarRepository implements CarRepositoryInterface
 
         while ($row = $this->dbManager->fetch()) {
             $carPricing = [
-                'day_price' => $row['day_price'],
-                'month_price' => $row['month_price'],
-                'km_price' => $row['km_price']
+                'hour_price' => $row['hour_price']
             ];
             $carSpecs = [
                 'power' => $row['power'],
@@ -57,7 +55,7 @@ class CarRepository implements CarRepositoryInterface
         $query = "
             SELECT c.id, c.make, c.model, c.year, c.is_available,
                    cp.photo_name,
-                   cr.day_price, cr.month_price, cr.km_price,
+                   cr.hour_price,
                    cs.power, cs.color
             FROM \"car\" c
             LEFT JOIN \"car_photo\" cp ON c.id = cp.car_id
@@ -71,9 +69,7 @@ class CarRepository implements CarRepositoryInterface
 
         if ($result) {
             $carPricing = [
-                'day_price' => $result['day_price'],
-                'month_price' => $result['month_price'],
-                'km_price' => $result['km_price']
+                'hour_price' => $result['hour_price'],
             ];
             $carSpecs = [
                 'power' => $result['power'],

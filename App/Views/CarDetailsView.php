@@ -6,7 +6,7 @@
         <div class="car-photo-container">
             <?php
             $defaultPhoto = "default/vecteezy_car-icon-vector-illustration_.jpg";
-            if (!file_exists("img/$car->carPhoto")): ?>
+            if (empty($car->carPhoto) || !file_exists("img/$car->carPhoto")): ?>
                 <img src="<?= $defaultPhoto ?>?v=<?= filemtime($defaultPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">
            <?php else: ?>
                 <img src="img/<?= $car->carPhoto ?>?v=<?= filemtime('img/' . $car->carPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">
@@ -26,8 +26,7 @@
                     </tr>
                     <tr>
                         <td><strong>Hour Price:</strong></td>
-    <!--                    TODO: remove 4.00 holder-->
-                        <td id="pricePerHour">$<?= htmlspecialchars($car->carPricing['hour_price'] ?? 4.00) ?></td>
+                        <td id="pricePerHour">$<?= htmlspecialchars($car->carPricing['hour_price']) ?></td>
                     </tr>
                     <tr>
                         <td><strong>Availability:</strong></td>

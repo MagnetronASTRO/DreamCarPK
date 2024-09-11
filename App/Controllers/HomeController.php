@@ -11,6 +11,7 @@ class HomeController
     public function showHomepage(): void
     {
         $cars = $this->carRepository->getAllCars();
+        error_log(print_r($cars, true));
         require_once __DIR__ . '/../Views/HomeView.php';
     }
 }

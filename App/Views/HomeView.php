@@ -9,7 +9,7 @@
                 <div class="car-gallery-container">
                     <div class="car-gallery">
                         <div class="img-container">
-                            <?php if (!file_exists("img/$car->carPhoto")): ?>
+                            <?php if (empty($car->carPhoto) || !file_exists("img/$car->carPhoto")): ?>
                                 <img src="<?= $defaultPhoto ?>?v=<?= filemtime($defaultPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">
                             <?php else: ?>
                                 <img src="img/<?= $car->carPhoto ?>?v=<?= filemtime('img/' . $car->carPhoto) ?>" alt="<?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?>">

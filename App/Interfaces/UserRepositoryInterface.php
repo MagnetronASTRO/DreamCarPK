@@ -26,7 +26,7 @@ interface UserRepositoryInterface
 
     public function validateUserToken(string $token): bool;
 
-    public function getUserToken(string $userToken): array;
+    public function getUserToken(string $userToken): array|false;
 
     public function getUserRoles(int $userId): array;
 }

@@ -49,7 +49,7 @@ CREATE TABLE "car" (
 CREATE TABLE "car_pricing" (
     id serial4 NOT NULL,
     car_id int4 NULL,
-    hour_price int4 NOT NULL,
+    hour_price float4 NOT NULL,
     CONSTRAINT car_pricing_pkey PRIMARY KEY (id),
     CONSTRAINT car_pricing_car_id_fkey FOREIGN KEY (car_id) REFERENCES car(id) ON DELETE CASCADE
 );
@@ -108,6 +108,18 @@ INSERT INTO "car" (make, model, year, is_available) VALUES ('Maker1', 'Model1', 
 INSERT INTO "car" (make, model, year, is_available) VALUES ('Maker2', 'Model4', 2019, TRUE);
 INSERT INTO "car" (make, model, year, is_available) VALUES ('Maker1', 'Model2', 2024, TRUE);
 INSERT INTO "car" (make, model, year, is_available) VALUES ('Maker3', 'Model1', 2023, TRUE);
+
+-- Insert initial car specs
+INSERT INTO "car_spec" (car_id, power, color) VALUES (1, 200, 'blue');
+INSERT INTO "car_spec" (car_id, power, color) VALUES (2, 144, 'red');
+INSERT INTO "car_spec" (car_id, power, color) VALUES (3, 315, 'black');
+INSERT INTO "car_spec" (car_id, power, color) VALUES (4, 400, 'brown');
+
+-- Insert initial car price
+INSERT INTO "car_pricing" (car_id, hour_price) VALUES (1, 4.00);
+INSERT INTO "car_pricing" (car_id, hour_price) VALUES (2, 2.00);
+INSERT INTO "car_pricing" (car_id, hour_price) VALUES (3, 6.50);
+INSERT INTO "car_pricing" (car_id, hour_price) VALUES (4, 3.00);
 
 -- Create a view for user reservations
 CREATE VIEW "user_reservation" AS
