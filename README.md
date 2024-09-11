@@ -36,7 +36,7 @@ Full functionality on both web and mobile devices.
 1. **App:**
     - `MVC (Model-View-Controller)` with Repository pattern,
 2. **Database:**
-    - ERD diagram available under ![ERD diaghram](/docs/database_diagram.png),
+    - ERD diagram available under ![ERD diaghram](/docs/database_diagram.png)
     - init SQL file is placed in `/db-init/init.sql` it creates default database during setup,
 
 ## Setup
