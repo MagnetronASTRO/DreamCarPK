@@ -68,13 +68,19 @@ class ReservationRepository implements ReservationRepositoryInterface
         $result = $this->dbManager->executeAndFetchOne($query, $params);
 
         if ($result) {
+            $pickupTimestamp = strtotime($result['reservation_date']);
+            $returnTimestamp = strtotime($result['return_date']);
+            $currentTimestamp = time();
+
+            $isActive = $currentTimestamp > $pickupTimestamp && $currentTimestamp < $returnTimestamp ? 1 : 0;
+
             return new ReservationModel(
                 id: $result['id'],
                 userId: $result['user_id'],
                 car: new CarModel($result['car_id'], $result['make'], $result['model'], $result['year'], 0),
                 fromDate: $result['reservation_date'],
                 returnDate: $result['return_date'],
-                isActive: $result['return_date'] > date("Y-m-d") ? 0 : 1
+                isActive: $isActive
             );
         }
 
@@ -93,15 +99,27 @@ class ReservationRepository implements ReservationRepositoryInterface
 
         $this->dbManager->executeQuery($query, $params);
 
-        while ($row = $this->dbManager->fetch())
+        while ($row = $this->dbManager->fetch()) {
+            $pickupTimestamp = strtotime($row['reservation_date']);
+            $returnTimestamp = strtotime($row['return_date']);
+            $currentTimestamp = time();
+
+            error_log(print_r(date("Y-m-d H:i:s", $pickupTimestamp), true));
+            error_log(print_r(date("Y-m-d H:i:s", $returnTimestamp), true));
+            error_log(print_r(date("Y-m-d H:i:s", $currentTimestamp), true));
+
+            $isActive = $currentTimestamp > $pickupTimestamp && $currentTimestamp < $returnTimestamp ? 1 : 0;
+
+
             $reservations[$row['id']] = new ReservationModel(
                 id: $row['id'],
                 userId: $row['user_id'],
                 car: new CarModel($row['car_id'], $row['make'], $row['model'], $row['year'], 0),
                 fromDate: $row['reservation_date'],
                 returnDate: $row['return_date'],
-                isActive: $row['return_date'] > date("Y-m-d") ? 0 : 1
+                isActive: $isActive
             );
+        }
 
         return $reservations;
     }

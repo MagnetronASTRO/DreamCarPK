@@ -37,7 +37,7 @@ include_once __DIR__ . '/loginForm.php';
         $router->post('/car_page', ['App\Controllers\CarController', 'showCarPage', 'all']);
 
         // user reservations page
-        $router->get('/user_reservations', ['App\Controllers\ReservationController', 'showUserReservations', 'all']);
+        $router->get('/user_reservations', ['App\Controllers\ReservationController', 'showUserReservations', 'customer']);
 
         // admin user panel
         $router->get('/admin=user_manager', ['App\Controllers\AdminController', 'showUserManager', 'admin']);

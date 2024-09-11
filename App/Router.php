@@ -41,7 +41,7 @@ class Router
         $container = require __DIR__ . '/DIContainerConfig.php';
         $authenticationController = $container->get(AuthenticationController::class);
 
-        if ($role !== 'all' && !$authenticationController->userHasRole($role)) {
+        if ($role !== 'all' && (!$authenticationController->userHasRole('admin') && !$authenticationController->userHasRole($role))) {
             echo '404 Page Not Found';
             return;
         }

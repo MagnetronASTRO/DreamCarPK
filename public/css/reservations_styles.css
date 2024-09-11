@@ -1,7 +1,7 @@
 .reservation-container {
-    display: grid;
-    grid-template-rows: 1fr repeat(12, minmax(auto, 60px)) 1fr;
-    grid-gap: 40px;
+    /*display: grid;*/
+    /*grid-template-rows: 1fr repeat(12, minmax(auto, 60px)) 1fr;*/
+    /*grid-gap: 20px;*/
 }
 
 .reservation-card {

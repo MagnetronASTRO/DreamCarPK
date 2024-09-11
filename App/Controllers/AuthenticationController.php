@@ -57,7 +57,6 @@ class AuthenticationController
 
     private function setLoginSessionData(int $userId, int $userRole): void
     {
-        session_start();
         $_SESSION['userId'] = $userId;
         $_SESSION['role'] = $userRole;
     }

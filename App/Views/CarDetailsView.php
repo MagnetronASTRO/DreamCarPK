@@ -1,4 +1,6 @@
 <?php if ($car): ?>
+    <script src='js/reservations.js?v=<?= filemtime('js/reservations.js') ?>'></script>
+
     <h3><?= htmlspecialchars($car->make) ?> <?= htmlspecialchars($car->model) ?> (<?= htmlspecialchars($car->year) ?>)</h3>
     <div class="car-details">
         <div class="car-photo-container">
