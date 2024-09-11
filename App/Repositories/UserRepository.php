@@ -108,14 +108,14 @@ class UserRepository implements UserRepositoryInterface
         return false;
     }
 
-    public function updateUser(int $id, UserModel $userData): bool
+    public function updateUser(int $userId, UserModel $userData): bool
     {
         $query = "UPDATE \"user\" SET username = :username, password = :password, email = :email WHERE id = :userId";
         $params = [
-            new bindParam(":username", $userData['username'], 's'),
-            new bindParam(":password", $userData['password'], 's'),
-            new bindParam(":email", $userData['email'], 's'),
-            new bindParam(":userId", $id, 'i')
+            new bindParam(":username", $userData->username, 's'),
+            new bindParam(":password", $userData->password, 's'),
+            new bindParam(":email", $userData->email, 's'),
+            new bindParam(":userId", $userId, 'i')
         ];
 
         return $this->dbManager->executeQuery($query, $params);

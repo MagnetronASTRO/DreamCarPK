@@ -79,22 +79,18 @@ class AuthenticationController
         return $response;
     }
 
-    public function login(string $email, string $password): array
+    public function login(string $username, string $password): array
     {
         $response = ['success' => false, 'message' => 'Invalid credentials'];
 
-        $sanitizedEmail = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $sanitizedUsername = filter_var($username, FILTER_SANITIZE_EMAIL);
 
-        if (!filter_var($sanitizedEmail, FILTER_VALIDATE_EMAIL)) {
-            $response['success'] = false;
-            $response['message'] = "Invalid email address";
-        }
-
-        $user = $this->userRepository->getUserByEmail($email);
+        $user = $this->userRepository->getUserByUserName($sanitizedUsername);
 
         if ($user && $user->is_active === 0) {
             $response['success'] = false;
             $response['message'] = "User is blocked";
+            return $response;
         }
 
         if ($user && password_verify($password, $user->password)) {

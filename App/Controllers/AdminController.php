@@ -38,13 +38,11 @@ class AdminController
         require_once __DIR__ . '/../Views/EditUserFormView.php';
     }
 
-    public function editUserData()
+    public function editUserData(int $userId, string $email, string $username, string $password, int $role): array
     {
         $response = ['success' => false, 'message' => 'User data edition failed'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $username = $_POST['username'];
-        $role = $_POST['role'];
+
+        $oldUserData = $this->userRepository->getUserById($userId);
 
         $sanitizedEmail = filter_var($email, FILTER_SANITIZE_EMAIL);
 
@@ -54,15 +52,23 @@ class AdminController
             return $response;
         }
 
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        if (empty($password)) {
+            $password = $oldUserData->password;
+        } else {
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        }
 
-        if ($this->userRepository->getUserByEmail($email)) {
+        $userByEmail = $this->userRepository->getUserByEmail($email);
+
+        if ($userByEmail && $userByEmail->email != $oldUserData->email) {
             $response['success'] = false;
             $response['message'] = "User with email: \"$email\" already exists!";
             return $response;
         }
 
-        if ($this->userRepository->getUserByUsername($username)) {
+        $userByUsername = $this->userRepository->getUserByUsername($username);
+
+        if ($userByUsername && $userByUsername->username != $oldUserData->username) {
             $response['success'] = false;
             $response['message'] = "User with username: \"$username\" already exists!";
             return $response;
@@ -75,7 +81,7 @@ class AdminController
             return $response;
         }
 
-        $newUser = new UserModel(
+        $updatedUserData = new UserModel(
             id: 0,
             username: $username,
             email: $email,
@@ -83,9 +89,9 @@ class AdminController
             password: $hashedPassword,
         );
 
-        if ($this->userRepository->createUser($newUser)) {
+        if ($this->userRepository->updateUser($userId, $updatedUserData)) {
             $response['success'] = true;
-            $response['message'] = 'Successful user added successfully.';
+            $response['message'] = 'User data changed successfully.';
         }
 
         return $response;

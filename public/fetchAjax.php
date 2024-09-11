@@ -16,7 +16,7 @@ $response = ['success' => false, 'message' => 'Invalid fetch data!'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['action'])) {
     $response = match($_POST['action']) {
         // login
-        'login' => $authenticationController->login($_POST['email'], $_POST['password']),
+        'login' => $authenticationController->login($_POST['username'], $_POST['password']),
         'logout' => $authenticationController->logOut(),
         // registration
         'signUp' => $authenticationController->signUp($_POST['email'], $_POST['username'], $_POST['password']),
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['action'])) {
         // admin users
         'addUser' => $adminController->addUser(),
         'showEditUser' => $adminController->showEditUser(),
-        'editUserData' => $adminController->editUserData($_POST['userId'], $_POST['email'], $_POST['username'], $_POST['password']),
+        'editUserData' => $adminController->editUserData($_POST['userId'], $_POST['email'], $_POST['username'], $_POST['password'], $_POST['role']),
         'changeUserActivity' => $adminController->changeUserActivity(),
         // admin cars
         'addCar' => $adminController->addCar($_POST['name'], $_POST['brand'], $_POST['model'], $_POST['year'], $_POST['color'], $_POST['price']),

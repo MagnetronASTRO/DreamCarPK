@@ -4,7 +4,7 @@
         <h2>Edit User</h2>
 
         <form id="editUserForm" method="post" class="admin-add-form">
-            <input type="hidden" id="userId" name="id" value="<?= $user->id ?>" required>
+            <input type="hidden" id="userId" name="userId" value="<?= $user->id ?>" required>
 
             <div class="admin-input-wrapper">
                 <label for="edit_username">Username:</label>
@@ -16,7 +16,7 @@
             </div>
             <div class="admin-input-wrapper">
                 <label for="edit_password">New password:</label>
-                <input type="checkbox">
+<!--                <input type="checkbox" id="isPasswordEdited" name="isPasswordEdited">-->
                 <input type="password" id="edit_password" name="password">
             </div>
             <div class="admin-input-wrapper">

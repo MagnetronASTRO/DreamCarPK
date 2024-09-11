@@ -1,11 +1,15 @@
 <?php
 
+
+
 namespace App;
 
 use App\Controllers\AuthenticationController;
 
 class Router
 {
+    private const string DEFAULT_CONTROLLER = 'App\Controllers\HomeController';
+    private const string DEFAULT_METHOD = 'showHomepage';
     protected array $routes = [];
 
     public function get($path, $handler): void
@@ -42,7 +46,8 @@ class Router
         $authenticationController = $container->get(AuthenticationController::class);
 
         if ($role !== 'all' && (!$authenticationController->userHasRole('admin') && !$authenticationController->userHasRole($role))) {
-            echo '404 Page Not Found';
+            $controllerInstance = $container->get(self::DEFAULT_CONTROLLER);
+            call_user_func_array([$controllerInstance, self::DEFAULT_METHOD], []);
             return;
         }
 

@@ -3,8 +3,8 @@
         <div class="container">
             <h2>Login</h2>
             <hr>
-            <label for="email"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="email" required>
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" required>
 
             <label for="password"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="password" required>
