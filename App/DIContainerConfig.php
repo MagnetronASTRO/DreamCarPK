@@ -24,13 +24,15 @@ use App\Controllers\HomeController;
 
 $containerBuilder = new ContainerBuilder();
 
+
 $containerBuilder->addDefinitions([
     DatabaseManagerInterface::class => function () {
+        $env = parse_ini_file('../.env');
         return new DatabaseManager(
             host: '172.20.0.10',
-            dbName: 'dreamcarpk_local',
-            user: 'dreamcarpk_local',
-            password: 'dreamcarpk_local123!@#',
+            dbName: $env["DB_NAME"],
+            user: $env["DB_USER"],
+            password: $env["DB_PASSWORD"],
             port: '5432',
             charset: 'utf8'
         );

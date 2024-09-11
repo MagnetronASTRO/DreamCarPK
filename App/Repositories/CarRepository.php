@@ -108,10 +108,10 @@ class CarRepository implements CarRepositoryInterface
     {
         $query = "UPDATE \"car\" SET make = :make, model = :model, year = :year, is_available = :is_available WHERE id = :carId";
         $params = [
-            new bindParam(":make", $carData->make, 's'),
-            new bindParam(":model", $carData->model, 's'),
-            new bindParam(":year", $carData->year, 'i'),
-            new bindParam(":is_available", $carData->is_available, 'b'),
+            new bindParam(":make", $carData->getMaker(), 's'),
+            new bindParam(":model", $carData->getModel(), 's'),
+            new bindParam(":year", $carData->getYear(), 'i'),
+            new bindParam(":is_available", $carData->getIsAvailable(), 'b'),
             new bindParam(":carId", $id, 'i')
         ];
 
