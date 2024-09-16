@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App;
 
 use App\Controllers\AuthenticationController;
@@ -12,14 +10,26 @@ class Router
     private const string DEFAULT_METHOD = 'showHomepage';
     protected array $routes = [];
 
-    public function get($path, $handler): void
+    public function register(string $requestMethod, string $route, callable|array $action): self
     {
-        $this->routes['GET'][$path] = $handler;
+        $this->routes[$requestMethod][$route] = $action;
+
+        return $this;
     }
 
-    public function post($path, $handler): void
+    public function get(string $route, callable|array $action): self
     {
-        $this->routes['POST'][$path] = $handler;
+        return $this->register('GET', $route, $action);
+    }
+
+    public function post(string $route, callable|array $action): self
+    {
+        return $this->register('POST', $route, $action);
+    }
+
+    public function routes(): array
+    {
+        return $this->routes;
     }
 
     public function dispatch(): void

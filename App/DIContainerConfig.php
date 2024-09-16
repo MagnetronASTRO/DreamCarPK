@@ -21,13 +21,14 @@ use App\Repositories\UserRepository;
 use App\Interfaces\UserRepositoryInterface;
 use App\Controllers\AuthenticationController;
 use App\Controllers\HomeController;
+use function DI\autowire;
 
 $containerBuilder = new ContainerBuilder();
 
 
 $containerBuilder->addDefinitions([
     DatabaseManagerInterface::class => function () {
-        $env = parse_ini_file('../.env');
+        $env = parse_ini_file(__DIR__ . '/../.env');
         return new DatabaseManager(
             host: '172.20.0.10',
             dbName: $env["DB_NAME"],
@@ -37,14 +38,14 @@ $containerBuilder->addDefinitions([
             charset: 'utf8'
         );
     },
-    UserRepositoryInterface::class => \DI\autowire(UserRepository::class),
-    CarRepositoryInterface::class => \DI\autowire(CarRepository::class),
-    ReservationRepositoryInterface::class => \DI\autowire(ReservationRepository::class),
-    AuthenticationControllerInterface::class => \DI\autowire(AuthenticationController::class),
-    HomeControllerInterface::class => \DI\autowire(HomeController::class),
-    CarControllerInterface::class => \DI\autowire(CarController::class),
-    ReservationControllerInterface::class => \DI\autowire(ReservationController::class),
-    AdminControllerInterface::class => \DI\autowire(AdminController::class),
+    UserRepositoryInterface::class => autowire(UserRepository::class),
+    CarRepositoryInterface::class => autowire(CarRepository::class),
+    ReservationRepositoryInterface::class => autowire(ReservationRepository::class),
+    AuthenticationControllerInterface::class => autowire(AuthenticationController::class),
+    HomeControllerInterface::class => autowire(HomeController::class),
+    CarControllerInterface::class => autowire(CarController::class),
+    ReservationControllerInterface::class => autowire(ReservationController::class),
+    AdminControllerInterface::class => autowire(AdminController::class),
 ]);
 
 
