@@ -10,8 +10,9 @@ Full functionality on both web and mobile devices.
 2. [Tech Stack](#tech-stack)
 3. [Architecture](#architecture)
 4. [Setup](#setup)
-5. [User Manual](#user-manual)
-6. [Admin Manual](#admin-manual)
+5. [Tests](#tests)
+6. [User Manual](#user-manual)
+7. [Admin Manual](#admin-manual)
 
 ## Features
 
@@ -47,6 +48,10 @@ Full functionality on both web and mobile devices.
     4. Build container images `docker compose buil`.
     5. Start app with `docker compose up -d`.
     6. Default admin email `admin@example.com` pass `admin123`, change it in production.
+
+## Tests
+
+   + To run tests run command `./vendor/bin/phpunit` in main directory after [Setup](#setup)
 
 ## User Manual
 ### Home page - car selection
