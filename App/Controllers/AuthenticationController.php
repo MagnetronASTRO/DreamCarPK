@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Controllers;
 
 use App\Interfaces\AuthenticationControllerInterface;
@@ -9,13 +10,11 @@ use function PHPUnit\Framework\isNull;
 
 class AuthenticationController implements AuthenticationControllerInterface
 {
-    public function __construct(private UserRepositoryInterface $userRepository)
-    {
-    }
+    public function __construct(private UserRepositoryInterface $userRepository) {}
 
     public function isLoggedIn(): bool
     {
-    if (isset($_COOKIE['user_token'])) {
+        if (isset($_COOKIE['user_token'])) {
             $token = $_COOKIE['user_token'];
             return $this->userRepository->validateUserToken($token);
         }

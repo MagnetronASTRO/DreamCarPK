@@ -10,7 +10,7 @@ use PDOException;
 class DatabaseManager implements DatabaseManagerInterface
 {
     private PDO $pdo;
-    private PDOStatement $statement;
+    private PDOStatement $statement;DB: 'psql' executable not found
     private string $error = "";
 
     function __construct(string $host, string $dbName, string $user, string $password, int $port, ?string $charset = '')
